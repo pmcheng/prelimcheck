@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Net;
 using System.IO;
-
+using System.Web;
 
 namespace PrelimCheck
 {
@@ -161,7 +161,7 @@ namespace PrelimCheck
                   where d.id = sd.document_uid 
                     and s.id=d.storage_uid 
                     and st.id=sd.study_uid
-                    and (d.name='Notes' or d.Name='Report') 
+                    and d.name='Report'
                     and st.ris_study_euid='{0}'
                     order by d.creation_timedate", dr["Accession"]);
                 //dr["Reports"] = query;
@@ -192,21 +192,13 @@ namespace PrelimCheck
 
                     client.DownloadFile(filename, notefile);
 
-                    if (doctype == "Notes")
-                    {
-                        report += parseNote(notefile);
-                    }
-                    else
-                    {
-                        report += parseReport(notefile, rbCounty.Checked);
-                    }
-
+                    report += parseReport(notefile, rbCounty.Checked);
                     report += "\r\n\r\n======\r\n\r\n";
                     rs.MoveNext();
                 }
                 rs.Close();
                 File.Delete(tempfile);
-                dr["Reports"] = report;
+                dr["Reports"] = report.Trim();
 
                 current += 1;
                 //backgroundWorker.ReportProgress(current * 100 / totalNotes);
@@ -225,14 +217,23 @@ namespace PrelimCheck
         {
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.Load(notefile);
-            string header = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteHeader\"]").InnerText;
-            header = header.Replace("&nbsp;", " ").Trim();
-            string note = header + "\r\n\r\n";
 
-            string content = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteData\"]").InnerText;
-            content = content.Replace("&nbsp;", " ").Trim();
-            note += content;
-            return note;
+            HtmlAgilityPack.HtmlNodeCollection header_nodes = doc.DocumentNode.SelectNodes("//div[@class=\"clsNoteHeader\"]");
+            HtmlAgilityPack.HtmlNodeCollection content_nodes = doc.DocumentNode.SelectNodes("//div[@class=\"clsNoteData\"]");
+
+            string note="";
+            for (int i = 0; i < header_nodes.Count; i++)
+            {
+                string header = header_nodes[i].InnerText;
+                header = HttpUtility.HtmlDecode(header);
+                note += header.Trim() + "\r\n\r\n";
+
+                string content = content_nodes[i].InnerText;
+                content = HttpUtility.HtmlDecode(content);
+                note += content.Trim() + "\r\n\r\n====\r\n\r\n";
+            }
+
+            return note.Trim();
 
         }
 
