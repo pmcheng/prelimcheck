@@ -110,6 +110,8 @@ namespace PrelimCheck
             dt.Columns.Add("Note", typeof(string));
             dt.Columns.Add("Reports", typeof(string));
 
+            DateTime lastprogress = DateTime.Now;
+
             while (!rs.EOF)
             {
                 string http_url = rs.Fields["http_url"].Value.ToString();
@@ -137,7 +139,7 @@ namespace PrelimCheck
 
                 string name = (lastname + ", " + firstname + " " + middlename).Trim();
 
-                if (note.Contains(textBoxFilter.Text))
+                if (note.ToLower().Contains(textBoxFilter.Text.ToLower()))
                 {
                     dt.Rows.Add(accnum, mrn, proc, name, creation_time, note, "");
                 }
@@ -198,15 +200,20 @@ namespace PrelimCheck
                 }
                 rs.Close();
                 File.Delete(tempfile);
-                dr["Reports"] = report.Trim();
+                dr["Reports"] = report;
 
                 current += 1;
-                //backgroundWorker.ReportProgress(current * 100 / totalNotes);
+                if ((DateTime.Now - lastprogress).Milliseconds > 50)
+                {
+                    backgroundWorker.ReportProgress(current * 100 / totalNotes, pObj);
+                    lastprogress = DateTime.Now;
+                }
             }
             File.Delete(notefile);
 
 
             pObj.updateDT = true;
+
             backgroundWorker.ReportProgress(100, pObj);
 
 
