@@ -16,6 +16,7 @@ namespace PrelimCheck
     public partial class MainForm : Form
     {
         CredentialCache myCredentialCache;
+        DataTable dt;
 
         public MainForm()
         {
@@ -36,13 +37,16 @@ namespace PrelimCheck
 
             myCredentialCache = new CredentialCache();
 
-            DateTime dt = DateTime.Now;
-            dt=dt.Date.AddDays(-1);
-            dt = dt.Date + new TimeSpan(18, 0, 0);
-            dateTimePickerStart.Value = dt;
-            dt = dt.Date.AddDays(1);
-            dt = dt.Date + new TimeSpan(8, 0, 0);
-            dateTimePickerEnd.Value = dt;
+            DateTime dtime = DateTime.Now;
+            dtime = dtime.Date.AddDays(-1);
+            dtime = dtime.Date + new TimeSpan(18, 0, 0);
+            dateTimePickerStart.Value = dtime;
+            dtime = dtime.Date.AddDays(1);
+            dtime = dtime.Date + new TimeSpan(8, 0, 0);
+            dateTimePickerEnd.Value = dtime;
+
+            saveFileDialog.InitialDirectory = Application.StartupPath;
+            btnSave.Enabled = false;
 
         }
 
@@ -72,6 +76,7 @@ namespace PrelimCheck
             Uri uriFujiRDS = new Uri(url);
 
             ProgressObject pObj = new ProgressObject();
+            backgroundWorker.ReportProgress(0, pObj);
 
             string dateStart = dateTimePickerStart.Value.ToString("yyyy-MM-dd HH:mm:ss");
             string dateEnd = dateTimePickerEnd.Value.ToString("yyyy-MM-dd HH:mm:ss");
@@ -96,7 +101,7 @@ namespace PrelimCheck
             WebClient client = new WebClient();
             client.Credentials = myCredentialCache;
 
-            DataTable dt = new DataTable();
+            dt = new DataTable();
             dt.Columns.Add("Accession", typeof(string));
             dt.Columns.Add("MRN", typeof(string));
             dt.Columns.Add("Procedure", typeof(string));
@@ -128,20 +133,13 @@ namespace PrelimCheck
                     filename = https_url + filename;
                 }
                 client.DownloadFile(filename, notefile);
-                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                doc.Load(notefile);
-                string header = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteHeader\"]").InnerText;
-                header = header.Replace("&nbsp;", " ").Trim();
-                string note = header + "\r\n\r\n";
+                string note = parseNote(notefile);
 
-                string content = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteData\"]").InnerText;
-                content = content.Replace("&nbsp;", " ").Trim();
-                note += content;
                 string name = (lastname + ", " + firstname + " " + middlename).Trim();
 
                 if (note.Contains(textBoxFilter.Text))
                 {
-                    dt.Rows.Add(accnum, mrn, proc, name, creation_time, note,"");
+                    dt.Rows.Add(accnum, mrn, proc, name, creation_time, note, "");
                 }
 
                 rs.MoveNext();
@@ -149,9 +147,7 @@ namespace PrelimCheck
                 backgroundWorker.ReportProgress(0, pObj);
             }
 
-            pObj.updateDT = true;
-            backgroundWorker.ReportProgress(0, pObj);
-            
+
             rs.Close();
             File.Delete(tempfile);
 
@@ -161,11 +157,143 @@ namespace PrelimCheck
             {
                 // Retrieve reports here
 
+                query = String.Format(@"select * from storage s,document d,study_document sd,study st
+                  where d.id = sd.document_uid 
+                    and s.id=d.storage_uid 
+                    and st.id=sd.study_uid
+                    and (d.name='Notes' or d.Name='Report') 
+                    and st.ris_study_euid='{0}'
+                    order by d.creation_timedate", dr["Accession"]);
+                //dr["Reports"] = query;
+
+                result = retrieveRDS(uriFujiRDS, query);
+
+                if (result == null) return;
+                tempfile = Path.GetTempFileName();
+                ByteArrayToFile(tempfile, result);
+                rs.Open(tempfile, "Provider=MSPersist", ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockReadOnly, 0);
+                string report="";
+
+                while (!rs.EOF)
+                {
+                    string http_url = rs.Fields["http_url"].Value.ToString();
+                    string https_url = rs.Fields["https_url"].Value.ToString();
+                    string doctype = rs.Fields["name"].Value.ToString();
+                    string filename = rs.Fields["filename"].Value.ToString();
+
+                    if (rbCounty.Checked)
+                    {
+                        filename = http_url + filename;
+                    }
+                    else
+                    {
+                        filename = https_url + filename;
+                    }
+
+                    client.DownloadFile(filename, notefile);
+
+                    if (doctype == "Notes")
+                    {
+                        report += parseNote(notefile);
+                    }
+                    else
+                    {
+                        report += parseReport(notefile, rbCounty.Checked);
+                    }
+
+                    report += "\r\n\r\n======\r\n\r\n";
+                    rs.MoveNext();
+                }
+                rs.Close();
+                File.Delete(tempfile);
+                dr["Reports"] = report;
+
                 current += 1;
                 //backgroundWorker.ReportProgress(current * 100 / totalNotes);
             }
+            File.Delete(notefile);
+
+
+            pObj.updateDT = true;
+            backgroundWorker.ReportProgress(100, pObj);
+
+
         }
 
+
+        public string parseNote(string notefile)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.Load(notefile);
+            string header = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteHeader\"]").InnerText;
+            header = header.Replace("&nbsp;", " ").Trim();
+            string note = header + "\r\n\r\n";
+
+            string content = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteData\"]").InnerText;
+            content = content.Replace("&nbsp;", " ").Trim();
+            note += content;
+            return note;
+
+        }
+
+        public string parseReport(string reportfile, bool county)
+        {
+            string report_text;
+            if (county)
+            {
+                report_text = File.ReadAllText(reportfile);
+            }
+            else
+            {
+                string[] file = File.ReadAllLines(reportfile);
+                StringBuilder output = new StringBuilder();
+                int startheader = 0, endheader = 0;
+                for (int i = 0; i < file.Length; i++)
+                {
+                    if (file[i].Contains("R a d i o l o g y")) startheader = i;
+                    if ((startheader == 0) && file[i].EndsWith("     Imaging"))
+                    {
+                        endheader = i;
+                        break;
+                    }
+                    if (file[i].EndsWith("     Report"))
+                    {
+                        endheader = i;
+                        break;
+                    }
+                }
+                int skip = 0;
+                for (int i = endheader; i < file.Length; i++)
+                {
+                    int line = (i - startheader) % 61;
+                    int page = (i - startheader) / 61;
+                    if (line < (endheader - startheader - 1)) continue;
+                    if (line > 55) continue;
+                    if (file[i].Contains("Patient Loc:")) continue;
+                    if (file[i].Contains("DOB:")) continue;
+                    if (file[i].Contains("Patient Name:"))
+                    {
+                        skip = 1;
+                        continue;
+                    }
+
+                    if (skip > 0)
+                    {
+                        skip -= 1;
+                        continue;
+                    }
+                    output.Append(file[i] + "\r\n");
+                }
+                report_text = output.ToString();
+
+            }
+            return report_text;
+        }
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            btnSave.Enabled = true;
+        }
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -315,8 +443,23 @@ namespace PrelimCheck
             }
         }
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (dt != null)
+            {
+                MessageBoxHelper.PrepToCenterMessageBoxOnForm(this);
+                DialogResult dr = saveFileDialog.ShowDialog(this);
+                if (dr == DialogResult.OK)
+                {
+                    string outputfile = saveFileDialog.FileName;
+                    string s = CsvWriter.WriteToString(dt, true, true);
 
+                    TextWriter tw = new StreamWriter(outputfile);
+                    tw.WriteLine(s);
+                    tw.Close();
 
-
+                }
+            }
+        }
     }
 }

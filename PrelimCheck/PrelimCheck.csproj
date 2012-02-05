@@ -57,6 +57,7 @@
     <Compile Include="Authentication.Designer.cs">
       <DependentUpon>Authentication.cs</DependentUpon>
     </Compile>
+    <Compile Include="CsvWriter.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +102,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"C:\bin\ilmerge.exe" /target:winexe /out:"$(ProjectDir)bin\$(TargetFileName)" "$(TargetDir)$(TargetFileName)" "$(TargetDir)adodb.dll" "$(TargetDir)HtmlAgilityPack.dll"</PostBuildEvent>
+    <PostBuildEvent>"C:\bin\ilmerge.exe" /target:winexe /out:"$(ProjectDir)bin\$(TargetFileName)" "$(TargetDir)$(TargetFileName)" "$(TargetDir)adodb.dll" "$(TargetDir)HtmlAgilityPack.dll"
+copy "$(ProjectDir)bin\$(TargetFileName)" "C:\Documents and Settings\pmcheng\My Documents\Radiology USC\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
