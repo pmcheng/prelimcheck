@@ -53,6 +53,26 @@ namespace PrelimCheck
 
             Uri uriFujiRDS = new Uri(url);
 
+            string query = "select * from storage where rownum=1"; // test query
+            byte[] result = retrieveRDS(uriFujiRDS, query);
+            if (result != null)
+            {
+                BackgroundParameter bObj = new BackgroundParameter();
+                bObj.url = url;
+                backgroundWorker.RunWorkerAsync(bObj);
+            }
+
+
+        }
+
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundParameter bObj = e.Argument as BackgroundParameter;
+            string url = bObj.url;
+            Uri uriFujiRDS = new Uri(url);
+
+            ProgressObject pObj = new ProgressObject();
+
             string dateStart = dateTimePickerStart.Value.ToString("yyyy-MM-dd HH:mm:ss");
             string dateEnd = dateTimePickerEnd.Value.ToString("yyyy-MM-dd HH:mm:ss");
             string query = String.Format(@"select * from storage s,document d,study_document sd,study st,patient p,procedure_info pi 
@@ -83,6 +103,7 @@ namespace PrelimCheck
             dt.Columns.Add("Name", typeof(string));
             dt.Columns.Add("Time", typeof(string));
             dt.Columns.Add("Note", typeof(string));
+            dt.Columns.Add("Reports", typeof(string));
 
             while (!rs.EOF)
             {
@@ -93,10 +114,10 @@ namespace PrelimCheck
                 string proc_code = rs.Fields["code"].Value.ToString();
                 string filename = rs.Fields["filename"].Value.ToString();
                 string mrn = rs.Fields["internal_euid"].Value.ToString();
-                string lastname=rs.Fields["last_name"].Value.ToString();
-                string firstname=rs.Fields["first_name"].Value.ToString();
-                string middlename=rs.Fields["middle_name"].Value.ToString();
-                string creation_time=rs.Fields["creation_timedate"].Value.ToString();
+                string lastname = rs.Fields["last_name"].Value.ToString();
+                string firstname = rs.Fields["first_name"].Value.ToString();
+                string middlename = rs.Fields["middle_name"].Value.ToString();
+                string creation_time = rs.Fields["creation_timedate"].Value.ToString();
 
                 if (rbCounty.Checked)
                 {
@@ -109,27 +130,64 @@ namespace PrelimCheck
                 client.DownloadFile(filename, notefile);
                 HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                 doc.Load(notefile);
-                string header=doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteHeader\"]").InnerText;
+                string header = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteHeader\"]").InnerText;
                 header = header.Replace("&nbsp;", " ").Trim();
-                string note = header+"\r\n\r\n";
+                string note = header + "\r\n\r\n";
 
                 string content = doc.DocumentNode.SelectSingleNode("//div[@class=\"clsNoteData\"]").InnerText;
                 content = content.Replace("&nbsp;", " ").Trim();
                 note += content;
-                string name=(lastname+", "+firstname+" "+middlename).Trim();
+                string name = (lastname + ", " + firstname + " " + middlename).Trim();
 
                 if (note.Contains(textBoxFilter.Text))
                 {
-                    dt.Rows.Add(accnum, mrn, proc, name, creation_time, note);
+                    dt.Rows.Add(accnum, mrn, proc, name, creation_time, note,"");
                 }
 
                 rs.MoveNext();
+                pObj.dt = dt;
+                backgroundWorker.ReportProgress(0, pObj);
             }
-            dgv_Results.DataSource = dt;
+
+            pObj.updateDT = true;
+            backgroundWorker.ReportProgress(0, pObj);
+            
             rs.Close();
             File.Delete(tempfile);
+
+            int totalNotes = dt.Rows.Count;
+            int current = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                // Retrieve reports here
+
+                current += 1;
+                //backgroundWorker.ReportProgress(current * 100 / totalNotes);
+            }
         }
 
+
+        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ProgressObject pObj = e.UserState as ProgressObject;
+            if (pObj.updateDT)
+            {
+                dgv_Results.DataSource = pObj.dt;
+            }
+            progressBar.Value = e.ProgressPercentage;
+        }
+
+        class BackgroundParameter
+        {
+            public string url;
+        }
+
+        class ProgressObject
+        {
+            public DataTable dt;
+            public bool updateDT = false;
+            //public string statusLabel;
+        }
 
         public bool ByteArrayToFile(string _FileName, byte[] _ByteArray)
         {
@@ -253,8 +311,10 @@ namespace PrelimCheck
             if (dgv_Results.SelectedRows.Count > 0)
             {
                 textBoxNote.Text = dgv_Results.SelectedRows[0].Cells["Note"].Value.ToString();
+                textBoxReport.Text = dgv_Results.SelectedRows[0].Cells["Reports"].Value.ToString();
             }
         }
+
 
 
 

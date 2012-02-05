@@ -44,6 +44,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Results)).BeginInit();
@@ -109,7 +111,7 @@
             this.textBoxReport.Multiline = true;
             this.textBoxReport.Name = "textBoxReport";
             this.textBoxReport.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxReport.Size = new System.Drawing.Size(309, 142);
+            this.textBoxReport.Size = new System.Drawing.Size(309, 166);
             this.textBoxReport.TabIndex = 1;
             // 
             // textBoxNote
@@ -121,7 +123,7 @@
             this.textBoxNote.Multiline = true;
             this.textBoxNote.Name = "textBoxNote";
             this.textBoxNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxNote.Size = new System.Drawing.Size(308, 142);
+            this.textBoxNote.Size = new System.Drawing.Size(308, 166);
             this.textBoxNote.TabIndex = 2;
             // 
             // textBoxFilter
@@ -229,15 +231,32 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBoxReport);
-            this.splitContainer1.Size = new System.Drawing.Size(621, 142);
+            this.splitContainer1.Size = new System.Drawing.Size(621, 166);
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 10;
+            // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.WorkerSupportsCancellation = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+            // 
+            // progressBar
+            // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(12, 487);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(621, 19);
+            this.progressBar.TabIndex = 11;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 466);
+            this.ClientSize = new System.Drawing.Size(645, 514);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.dateTimePickerEnd);
             this.Controls.Add(this.label2);
@@ -282,6 +301,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
+        private System.Windows.Forms.ProgressBar progressBar;
     }
 }
 
