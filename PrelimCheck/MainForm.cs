@@ -52,8 +52,11 @@ namespace PrelimCheck
 
         private void btnRetrieve_Click(object sender, EventArgs e)
         {
+            btnRetrieve.Enabled = false;
+
             string url = "http://lacsynapse/SynapseScripts/fujirds.asp";
-            if (rbKeck.Checked) url = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
+            if (rbKeck.Checked) url = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
+            if (rbKeckRemote.Checked) url = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
 
             Uri uriFujiRDS = new Uri(url);
 
@@ -64,6 +67,10 @@ namespace PrelimCheck
                 BackgroundParameter bObj = new BackgroundParameter();
                 bObj.url = url;
                 backgroundWorker.RunWorkerAsync(bObj);
+            }
+            else
+            {
+                btnRetrieve.Enabled = true;
             }
 
 
@@ -126,13 +133,13 @@ namespace PrelimCheck
                 string middlename = rs.Fields["middle_name"].Value.ToString();
                 string creation_time = rs.Fields["creation_timedate"].Value.ToString();
 
-                if (rbCounty.Checked)
+                if (url.StartsWith("https"))
                 {
-                    filename = http_url + filename;
+                    filename = https_url + filename;
                 }
                 else
                 {
-                    filename = https_url + filename;
+                    filename = http_url + filename;
                 }
                 client.DownloadFile(filename, notefile);
                 string note = parseNote(notefile);
@@ -183,13 +190,13 @@ namespace PrelimCheck
                     string doctype = rs.Fields["name"].Value.ToString();
                     string filename = rs.Fields["filename"].Value.ToString();
 
-                    if (rbCounty.Checked)
+                    if (url.StartsWith("https"))
                     {
-                        filename = http_url + filename;
+                        filename = https_url + filename;
                     }
                     else
                     {
-                        filename = https_url + filename;
+                        filename = http_url + filename;
                     }
 
                     client.DownloadFile(filename, notefile);
@@ -301,6 +308,8 @@ namespace PrelimCheck
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             btnSave.Enabled = true;
+            btnRetrieve.Enabled = true;
+            dgv_Results.Select();
         }
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
