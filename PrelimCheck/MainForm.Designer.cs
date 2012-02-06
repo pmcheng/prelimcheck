@@ -327,6 +327,7 @@
             this.Controls.Add(this.textBoxFilter);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(653, 541);
             this.Name = "MainForm";
             this.Text = "PrelimCheck";
             this.tableLayoutPanel1.ResumeLayout(false);
