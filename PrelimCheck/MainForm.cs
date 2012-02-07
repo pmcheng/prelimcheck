@@ -146,10 +146,7 @@ namespace PrelimCheck
 
                 string name = (lastname + ", " + firstname + " " + middlename).Trim();
 
-                if (note.ToLower().Contains(textBoxFilter.Text.ToLower()))
-                {
-                    dt.Rows.Add(accnum, mrn, proc, name, creation_time, note, "");
-                }
+                dt.Rows.Add(accnum, mrn, proc, name, creation_time, note, "");
 
                 rs.MoveNext();
                 pObj.dt = dt;
@@ -222,6 +219,7 @@ namespace PrelimCheck
 
 
             pObj.updateDT = true;
+            changeFilter();
 
             backgroundWorker.ReportProgress(100, pObj);
 
@@ -475,13 +473,27 @@ namespace PrelimCheck
                 if (dr == DialogResult.OK)
                 {
                     string outputfile = saveFileDialog.FileName;
-                    string s = CsvWriter.WriteToString(dt, true, true);
+                    string s = CsvWriter.WriteToString(dt.DefaultView.ToTable(), true, true);
 
                     TextWriter tw = new StreamWriter(outputfile);
                     tw.WriteLine(s);
                     tw.Close();
 
                 }
+            }
+        }
+
+        private void textBoxFilter_TextChanged(object sender, EventArgs e)
+        {
+            changeFilter();
+        }
+
+        private void changeFilter()
+        {
+            if (dt != null)
+            {
+                dt.DefaultView.RowFilter = "Note LIKE '*" + textBoxFilter.Text + "*' OR "
+                                         + "Reports LIKE '*" + textBoxFilter.Text + "*'";
             }
         }
     }

@@ -142,6 +142,7 @@
             this.textBoxFilter.Name = "textBoxFilter";
             this.textBoxFilter.Size = new System.Drawing.Size(150, 20);
             this.textBoxFilter.TabIndex = 6;
+            this.textBoxFilter.TextChanged += new System.EventHandler(this.textBoxFilter_TextChanged);
             // 
             // dateTimePickerStart
             // 
