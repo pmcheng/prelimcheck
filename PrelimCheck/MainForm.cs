@@ -202,8 +202,10 @@ namespace PrelimCheck
                     client.DownloadFile(filename, notefile);
 
                     report += parseReport(notefile, rbCounty.Checked);
-                    report += "\r\n\r\n======\r\n\r\n";
+                    
                     rs.MoveNext();
+
+                    if (!rs.EOF) report += "\r\n\r\n======\r\n\r\n";
                 }
                 rs.Close();
                 File.Delete(tempfile);
@@ -244,7 +246,11 @@ namespace PrelimCheck
 
                 string content = content_nodes[i].InnerText;
                 content = HttpUtility.HtmlDecode(content);
-                note += content.Trim() + "\r\n\r\n====\r\n\r\n";
+                note += content.Trim();
+                if (i < (header_nodes.Count - 1)) 
+                { 
+                    note += "\r\n\r\n====\r\n\r\n"; 
+                }
             }
 
             return note.Trim();

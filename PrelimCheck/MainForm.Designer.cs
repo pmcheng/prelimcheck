@@ -52,12 +52,16 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Results)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -117,7 +121,7 @@
             this.textBoxReport.Multiline = true;
             this.textBoxReport.Name = "textBoxReport";
             this.textBoxReport.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxReport.Size = new System.Drawing.Size(309, 166);
+            this.textBoxReport.Size = new System.Drawing.Size(309, 202);
             this.textBoxReport.TabIndex = 0;
             // 
             // textBoxNote
@@ -129,7 +133,7 @@
             this.textBoxNote.Multiline = true;
             this.textBoxNote.Name = "textBoxNote";
             this.textBoxNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxNote.Size = new System.Drawing.Size(308, 166);
+            this.textBoxNote.Size = new System.Drawing.Size(308, 202);
             this.textBoxNote.TabIndex = 0;
             // 
             // textBoxFilter
@@ -208,14 +212,14 @@
             // dgv_Results
             // 
             this.dgv_Results.AllowUserToAddRows = false;
-            this.dgv_Results.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgv_Results.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Results.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_Results.Location = new System.Drawing.Point(12, 124);
+            this.dgv_Results.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Results.Location = new System.Drawing.Point(0, 0);
             this.dgv_Results.MultiSelect = false;
             this.dgv_Results.Name = "dgv_Results";
             this.dgv_Results.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Results.Size = new System.Drawing.Size(621, 175);
+            this.dgv_Results.Size = new System.Drawing.Size(621, 145);
             this.dgv_Results.TabIndex = 10;
             this.dgv_Results.SelectionChanged += new System.EventHandler(this.dgv_Results_SelectionChanged);
             // 
@@ -239,10 +243,8 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(12, 312);
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -252,7 +254,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBoxReport);
-            this.splitContainer1.Size = new System.Drawing.Size(621, 166);
+            this.splitContainer1.Size = new System.Drawing.Size(621, 202);
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 10;
             // 
@@ -308,6 +310,26 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "End";
             // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer2.Location = new System.Drawing.Point(12, 124);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.dgv_Results);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
+            this.splitContainer2.Size = new System.Drawing.Size(621, 351);
+            this.splitContainer2.SplitterDistance = 145;
+            this.splitContainer2.TabIndex = 12;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -317,15 +339,14 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.dateTimePickerEnd);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.dgv_Results);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRetrieve);
             this.Controls.Add(this.dateTimePickerStart);
             this.Controls.Add(this.textBoxFilter);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.splitContainer2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(653, 541);
             this.Name = "MainForm";
@@ -340,6 +361,9 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -370,6 +394,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RadioButton rbKeck;
+        private System.Windows.Forms.SplitContainer splitContainer2;
     }
 }
 
