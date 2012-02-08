@@ -43,6 +43,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="LumenWorks.Framework.IO, Version=3.8.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -103,7 +107,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"C:\bin\ilmerge.exe" /target:winexe /out:"$(ProjectDir)bin\$(TargetFileName)" "$(TargetDir)$(TargetFileName)" "$(TargetDir)adodb.dll" "$(TargetDir)HtmlAgilityPack.dll"
+    <PostBuildEvent>"C:\bin\ilmerge.exe" /target:winexe /out:"$(ProjectDir)bin\$(TargetFileName)" "$(TargetDir)$(TargetFileName)" "$(TargetDir)adodb.dll" "$(TargetDir)HtmlAgilityPack.dll" "$(TargetDir)LumenWorks.Framework.IO.dll" 
 copy "$(ProjectDir)bin\$(TargetFileName)" "C:\Documents and Settings\pmcheng\My Documents\Radiology USC\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

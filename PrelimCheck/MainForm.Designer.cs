@@ -44,15 +44,17 @@
             this.rbCounty = new System.Windows.Forms.RadioButton();
             this.dgv_Results = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
-            this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.btnSave = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbDuration = new System.Windows.Forms.ComboBox();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Results)).BeginInit();
@@ -138,7 +140,7 @@
             // 
             // textBoxFilter
             // 
-            this.textBoxFilter.Location = new System.Drawing.Point(78, 90);
+            this.textBoxFilter.Location = new System.Drawing.Point(74, 90);
             this.textBoxFilter.Name = "textBoxFilter";
             this.textBoxFilter.Size = new System.Drawing.Size(150, 20);
             this.textBoxFilter.TabIndex = 6;
@@ -157,7 +159,7 @@
             // 
             this.btnRetrieve.Image = ((System.Drawing.Image)(resources.GetObject("btnRetrieve.Image")));
             this.btnRetrieve.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRetrieve.Location = new System.Drawing.Point(245, 87);
+            this.btnRetrieve.Location = new System.Drawing.Point(238, 88);
             this.btnRetrieve.Name = "btnRetrieve";
             this.btnRetrieve.Size = new System.Drawing.Size(75, 23);
             this.btnRetrieve.TabIndex = 7;
@@ -171,7 +173,7 @@
             this.groupBox1.Controls.Add(this.rbKeck);
             this.groupBox1.Controls.Add(this.rbKeckRemote);
             this.groupBox1.Controls.Add(this.rbCounty);
-            this.groupBox1.Location = new System.Drawing.Point(424, 12);
+            this.groupBox1.Location = new System.Drawing.Point(476, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(153, 98);
             this.groupBox1.TabIndex = 9;
@@ -233,15 +235,6 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Filter Text:";
             // 
-            // dateTimePickerEnd
-            // 
-            this.dateTimePickerEnd.CustomFormat = "MM/dd/yyyy    hh:mm tt";
-            this.dateTimePickerEnd.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(235, 46);
-            this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(168, 20);
-            this.dateTimePickerEnd.TabIndex = 4;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -280,9 +273,9 @@
             // 
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(334, 87);
+            this.btnSave.Location = new System.Drawing.Point(325, 88);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(69, 23);
+            this.btnSave.Size = new System.Drawing.Size(65, 23);
             this.btnSave.TabIndex = 8;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -301,15 +294,6 @@
             this.label4.Size = new System.Drawing.Size(29, 13);
             this.label4.TabIndex = 1;
             this.label4.Text = "Start";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(202, 49);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(26, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "End";
             // 
             // splitContainer2
             // 
@@ -331,16 +315,59 @@
             this.splitContainer2.SplitterDistance = 145;
             this.splitContainer2.TabIndex = 12;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(202, 51);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(82, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Duration (hours)";
+            // 
+            // cbDuration
+            // 
+            this.cbDuration.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDuration.FormattingEnabled = true;
+            this.cbDuration.Items.AddRange(new object[] {
+            "6",
+            "12",
+            "18",
+            "24",
+            "48"});
+            this.cbDuration.Location = new System.Drawing.Point(290, 48);
+            this.cbDuration.Name = "cbDuration";
+            this.cbDuration.Size = new System.Drawing.Size(64, 21);
+            this.cbDuration.TabIndex = 4;
+            // 
+            // btnLoad
+            // 
+            this.btnLoad.Image = ((System.Drawing.Image)(resources.GetObject("btnLoad.Image")));
+            this.btnLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLoad.Location = new System.Drawing.Point(397, 88);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(65, 23);
+            this.btnLoad.TabIndex = 13;
+            this.btnLoad.Text = "Load";
+            this.btnLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            this.openFileDialog.Filter = "CSV files|*.csv";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(645, 514);
+            this.Controls.Add(this.btnLoad);
+            this.Controls.Add(this.cbDuration);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.dateTimePickerEnd);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRetrieve);
@@ -386,16 +413,18 @@
         private System.Windows.Forms.RadioButton rbKeckRemote;
         private System.Windows.Forms.RadioButton rbCounty;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.ComponentModel.BackgroundWorker backgroundWorker;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RadioButton rbKeck;
         private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbDuration;
+        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 

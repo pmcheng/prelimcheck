@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Net;
 using System.IO;
 using System.Web;
+using LumenWorks.Framework.IO.Csv;
 
 namespace PrelimCheck
 {
@@ -42,17 +43,30 @@ namespace PrelimCheck
             dtime = dtime.Date + new TimeSpan(18, 0, 0);
             dateTimePickerStart.Value = dtime;
             dtime = dtime.Date.AddDays(1);
-            dtime = dtime.Date + new TimeSpan(8, 0, 0);
-            dateTimePickerEnd.Value = dtime;
+            //dtime = dtime.Date + new TimeSpan(8, 0, 0);
+            //dateTimePickerEnd.Value = dtime;
+            cbDuration.SelectedIndex = 2;
 
             saveFileDialog.InitialDirectory = Application.StartupPath;
+            openFileDialog.InitialDirectory = Application.StartupPath;
+
             btnSave.Enabled = false;
+
+            typeof(DataGridView).InvokeMember(
+               "DoubleBuffered",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty,
+                null,
+                dgv_Results,
+                new object[] { true });
+
 
         }
 
         private void btnRetrieve_Click(object sender, EventArgs e)
         {
             btnRetrieve.Enabled = false;
+            btnSave.Enabled = false;
+            btnLoad.Enabled = false;
 
             string url = "http://lacsynapse/SynapseScripts/fujirds.asp";
             if (rbKeck.Checked) url = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
@@ -66,11 +80,13 @@ namespace PrelimCheck
             {
                 BackgroundParameter bObj = new BackgroundParameter();
                 bObj.url = url;
+                bObj.duration = cbDuration.Text;
                 backgroundWorker.RunWorkerAsync(bObj);
             }
             else
             {
                 btnRetrieve.Enabled = true;
+                btnLoad.Enabled = true;
             }
 
 
@@ -85,8 +101,11 @@ namespace PrelimCheck
             ProgressObject pObj = new ProgressObject();
             backgroundWorker.ReportProgress(0, pObj);
 
-            string dateStart = dateTimePickerStart.Value.ToString("yyyy-MM-dd HH:mm:ss");
-            string dateEnd = dateTimePickerEnd.Value.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime dtime = dateTimePickerStart.Value;
+            string dateStart = dtime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            string dateEnd = dtime.AddHours(double.Parse(bObj.duration)).ToString("yyyy-MM-dd HH:mm:ss");
+            //dateTimePickerEnd.Value.ToString("yyyy-MM-dd HH:mm:ss");
             string query = String.Format(@"select * from storage s,document d,study_document sd,study st,patient p,procedure_info pi 
               where d.id = sd.document_uid 
                 and s.id=d.storage_uid 
@@ -113,7 +132,8 @@ namespace PrelimCheck
             dt.Columns.Add("MRN", typeof(string));
             dt.Columns.Add("Procedure", typeof(string));
             dt.Columns.Add("Name", typeof(string));
-            dt.Columns.Add("Time", typeof(string));
+            dt.Columns.Add("Study Time", typeof(string));
+            dt.Columns.Add("Note Time", typeof(string));
             dt.Columns.Add("Note", typeof(string));
             dt.Columns.Add("Reports", typeof(string));
 
@@ -131,7 +151,9 @@ namespace PrelimCheck
                 string lastname = rs.Fields["last_name"].Value.ToString();
                 string firstname = rs.Fields["first_name"].Value.ToString();
                 string middlename = rs.Fields["middle_name"].Value.ToString();
-                string creation_time = rs.Fields["creation_timedate"].Value.ToString();
+                string study_time = ((DateTime) rs.Fields["study_timedate"].Value).ToString("s");
+                string creation_time = ((DateTime) rs.Fields["creation_timedate"].Value).ToString("s");
+                
 
                 if (url.StartsWith("https"))
                 {
@@ -146,7 +168,7 @@ namespace PrelimCheck
 
                 string name = (lastname + ", " + firstname + " " + middlename).Trim();
 
-                dt.Rows.Add(accnum, mrn, proc, name, creation_time, note, "");
+                dt.Rows.Add(accnum, mrn, proc, name, study_time, creation_time, note, "");
 
                 rs.MoveNext();
                 pObj.dt = dt;
@@ -313,6 +335,7 @@ namespace PrelimCheck
         {
             btnSave.Enabled = true;
             btnRetrieve.Enabled = true;
+            btnLoad.Enabled = true;
             dgv_Results.Select();
         }
 
@@ -329,6 +352,7 @@ namespace PrelimCheck
         class BackgroundParameter
         {
             public string url;
+            public string duration;
         }
 
         class ProgressObject
@@ -494,6 +518,28 @@ namespace PrelimCheck
             {
                 dt.DefaultView.RowFilter = "Note LIKE '*" + textBoxFilter.Text + "*' OR "
                                          + "Reports LIKE '*" + textBoxFilter.Text + "*'";
+            }
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                try
+                {
+                    DataTable dt_test = new DataTable();
+                    using (CsvReader csv = new CsvReader(new StreamReader(openFileDialog.FileName), true))
+                    {
+                        dt_test.Load(csv);
+                    }
+                    dt = dt_test;
+                    dgv_Results.DataSource = dt;
+                }
+                catch
+                {
+
+                }
             }
         }
     }
