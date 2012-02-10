@@ -221,6 +221,7 @@
             // dgv_Results
             // 
             this.dgv_Results.AllowUserToAddRows = false;
+            this.dgv_Results.AllowUserToResizeRows = false;
             this.dgv_Results.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_Results.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Results.Dock = System.Windows.Forms.DockStyle.Fill;

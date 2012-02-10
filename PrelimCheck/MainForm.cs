@@ -486,6 +486,11 @@ namespace PrelimCheck
                 textBoxNote.Text = dgv_Results.SelectedRows[0].Cells["Note"].Value.ToString();
                 textBoxReport.Text = dgv_Results.SelectedRows[0].Cells["Reports"].Value.ToString();
             }
+            else
+            {
+                textBoxNote.Text = "";
+                textBoxReport.Text = "";
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
