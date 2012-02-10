@@ -121,9 +121,11 @@
             this.textBoxReport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxReport.BackColor = System.Drawing.SystemColors.Window;
             this.textBoxReport.Location = new System.Drawing.Point(0, 0);
             this.textBoxReport.Multiline = true;
             this.textBoxReport.Name = "textBoxReport";
+            this.textBoxReport.ReadOnly = true;
             this.textBoxReport.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxReport.Size = new System.Drawing.Size(309, 202);
             this.textBoxReport.TabIndex = 0;
@@ -133,9 +135,11 @@
             this.textBoxNote.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxNote.BackColor = System.Drawing.SystemColors.Window;
             this.textBoxNote.Location = new System.Drawing.Point(0, 0);
             this.textBoxNote.Multiline = true;
             this.textBoxNote.Name = "textBoxNote";
+            this.textBoxNote.ReadOnly = true;
             this.textBoxNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxNote.Size = new System.Drawing.Size(308, 202);
             this.textBoxNote.TabIndex = 0;
@@ -164,7 +168,7 @@
             this.btnRetrieve.Location = new System.Drawing.Point(296, 87);
             this.btnRetrieve.Name = "btnRetrieve";
             this.btnRetrieve.Size = new System.Drawing.Size(83, 23);
-            this.btnRetrieve.TabIndex = 9;
+            this.btnRetrieve.TabIndex = 13;
             this.btnRetrieve.Text = "Download";
             this.btnRetrieve.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRetrieve.UseVisualStyleBackColor = true;
@@ -178,7 +182,7 @@
             this.groupBox1.Location = new System.Drawing.Point(476, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(153, 98);
-            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             // 
             // rbKeck
@@ -223,9 +227,10 @@
             this.dgv_Results.Location = new System.Drawing.Point(0, 0);
             this.dgv_Results.MultiSelect = false;
             this.dgv_Results.Name = "dgv_Results";
+            this.dgv_Results.ReadOnly = true;
             this.dgv_Results.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_Results.Size = new System.Drawing.Size(621, 145);
-            this.dgv_Results.TabIndex = 10;
+            this.dgv_Results.TabIndex = 0;
             this.dgv_Results.SelectionChanged += new System.EventHandler(this.dgv_Results_SelectionChanged);
             // 
             // label2
@@ -278,7 +283,7 @@
             this.btnSave.Location = new System.Drawing.Point(397, 87);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(65, 23);
-            this.btnSave.TabIndex = 11;
+            this.btnSave.TabIndex = 13;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSave.UseVisualStyleBackColor = true;
@@ -348,7 +353,7 @@
             this.btnLoad.Location = new System.Drawing.Point(397, 58);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(65, 23);
-            this.btnLoad.TabIndex = 10;
+            this.btnLoad.TabIndex = 13;
             this.btnLoad.Text = "Open";
             this.btnLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLoad.UseVisualStyleBackColor = true;
@@ -356,7 +361,6 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.FileName = "openFileDialog";
             this.openFileDialog.Filter = "CSV files|*.csv";
             // 
             // textBoxFilter2

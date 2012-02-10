@@ -151,8 +151,8 @@ namespace PrelimCheck
                 string lastname = rs.Fields["last_name"].Value.ToString();
                 string firstname = rs.Fields["first_name"].Value.ToString();
                 string middlename = rs.Fields["middle_name"].Value.ToString();
-                string study_time = ((DateTime) rs.Fields["study_timedate"].Value).ToString("s");
-                string creation_time = ((DateTime) rs.Fields["creation_timedate"].Value).ToString("s");
+                string study_time = ((DateTime) rs.Fields["study_timedate"].Value).ToString("s").Replace('T',' ');
+                string creation_time = ((DateTime)rs.Fields["creation_timedate"].Value).ToString("s").Replace('T', ' ');
                 
 
                 if (url.StartsWith("https"))
@@ -497,7 +497,11 @@ namespace PrelimCheck
                 if (dr == DialogResult.OK)
                 {
                     string outputfile = saveFileDialog.FileName;
-                    string s = CsvWriter.WriteToString(dt.DefaultView.ToTable(), true, true);
+                    DataTable dt_out = dt.DefaultView.ToTable();
+                    if (dt_out.Columns.Contains("Name")) {
+                        dt_out.Columns.Remove("Name");
+                    }
+                    string s = CsvWriter.WriteToString(dt_out, true, true);
 
                     TextWriter tw = new StreamWriter(outputfile);
                     tw.WriteLine(s);
@@ -533,7 +537,10 @@ namespace PrelimCheck
                         dt_test.Load(csv);
                     }
                     dt = dt_test;
+                    
+                    btnSave.Enabled = true;
                     dgv_Results.DataSource = dt;
+                    dgv_Results.Select();
                 }
                 catch
                 {
