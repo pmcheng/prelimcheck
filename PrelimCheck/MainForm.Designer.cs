@@ -229,6 +229,7 @@
             this.dgv_Results.MultiSelect = false;
             this.dgv_Results.Name = "dgv_Results";
             this.dgv_Results.ReadOnly = true;
+            this.dgv_Results.RowHeadersVisible = false;
             this.dgv_Results.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_Results.Size = new System.Drawing.Size(621, 145);
             this.dgv_Results.TabIndex = 0;
