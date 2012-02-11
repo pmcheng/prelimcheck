@@ -45,6 +45,9 @@
             this.dgv_Results = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBoxMRN = new System.Windows.Forms.TextBox();
+            this.textBoxAccession = new System.Windows.Forms.TextBox();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.btnSave = new System.Windows.Forms.Button();
@@ -57,19 +60,16 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.textBoxFilter2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxMRN = new System.Windows.Forms.TextBox();
-            this.textBoxAccession = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Results)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -266,6 +266,47 @@
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 10;
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.textBoxMRN, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxAccession, 1, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 178);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(304, 29);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // textBoxMRN
+            // 
+            this.textBoxMRN.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxMRN.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxMRN.Location = new System.Drawing.Point(3, 3);
+            this.textBoxMRN.Name = "textBoxMRN";
+            this.textBoxMRN.ReadOnly = true;
+            this.textBoxMRN.Size = new System.Drawing.Size(146, 20);
+            this.textBoxMRN.TabIndex = 0;
+            // 
+            // textBoxAccession
+            // 
+            this.textBoxAccession.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxAccession.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxAccession.Location = new System.Drawing.Point(155, 3);
+            this.textBoxAccession.Name = "textBoxAccession";
+            this.textBoxAccession.ReadOnly = true;
+            this.textBoxAccession.Size = new System.Drawing.Size(146, 20);
+            this.textBoxAccession.TabIndex = 1;
+            // 
             // backgroundWorker
             // 
             this.backgroundWorker.WorkerReportsProgress = true;
@@ -387,47 +428,6 @@
             this.label6.TabIndex = 7;
             this.label6.Text = "Filter 2:";
             // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.textBoxMRN, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.textBoxAccession, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 178);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(304, 29);
-            this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // textBoxMRN
-            // 
-            this.textBoxMRN.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMRN.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxMRN.Location = new System.Drawing.Point(3, 3);
-            this.textBoxMRN.Name = "textBoxMRN";
-            this.textBoxMRN.ReadOnly = true;
-            this.textBoxMRN.Size = new System.Drawing.Size(146, 20);
-            this.textBoxMRN.TabIndex = 0;
-            // 
-            // textBoxAccession
-            // 
-            this.textBoxAccession.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxAccession.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxAccession.Location = new System.Drawing.Point(155, 3);
-            this.textBoxAccession.Name = "textBoxAccession";
-            this.textBoxAccession.ReadOnly = true;
-            this.textBoxAccession.Size = new System.Drawing.Size(146, 20);
-            this.textBoxAccession.TabIndex = 1;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -462,11 +462,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

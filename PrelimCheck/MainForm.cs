@@ -173,9 +173,9 @@ namespace PrelimCheck
                         client.DownloadFile(filename, notefile);
                         note = parseNote(notefile);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        note = "Error downloading note.";
+                        note = "Error downloading note: " + ex.Message;
                     }
 
                     string name = (lastname + ", " + firstname + " " + middlename).Trim();
@@ -235,9 +235,9 @@ namespace PrelimCheck
                             client.DownloadFile(filename, notefile);
                             report += parseReport(notefile, rbCounty.Checked);
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            report += "Error downloading report.";
+                            report += "Error downloading report: "+ex.Message;
                         }
 
 
