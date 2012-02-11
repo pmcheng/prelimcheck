@@ -94,19 +94,21 @@ namespace PrelimCheck
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            BackgroundParameter bObj = e.Argument as BackgroundParameter;
-            string url = bObj.url;
-            Uri uriFujiRDS = new Uri(url);
+            try
+            {
+                BackgroundParameter bObj = e.Argument as BackgroundParameter;
+                string url = bObj.url;
+                Uri uriFujiRDS = new Uri(url);
 
-            ProgressObject pObj = new ProgressObject();
-            backgroundWorker.ReportProgress(0, pObj);
+                ProgressObject pObj = new ProgressObject();
+                backgroundWorker.ReportProgress(0, pObj);
 
-            DateTime dtime = dateTimePickerStart.Value;
-            string dateStart = dtime.ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime dtime = dateTimePickerStart.Value;
+                string dateStart = dtime.ToString("yyyy-MM-dd HH:mm:ss");
 
-            string dateEnd = dtime.AddHours(double.Parse(bObj.duration)).ToString("yyyy-MM-dd HH:mm:ss");
-            //dateTimePickerEnd.Value.ToString("yyyy-MM-dd HH:mm:ss");
-            string query = String.Format(@"select * from storage s,document d,study_document sd,study st,patient p,procedure_info pi 
+                string dateEnd = dtime.AddHours(double.Parse(bObj.duration)).ToString("yyyy-MM-dd HH:mm:ss");
+                //dateTimePickerEnd.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                string query = String.Format(@"select * from storage s,document d,study_document sd,study st,patient p,procedure_info pi 
               where d.id = sd.document_uid 
                 and s.id=d.storage_uid 
                 and st.id=sd.study_uid 
@@ -115,99 +117,46 @@ namespace PrelimCheck
                 and d.name='Notes' 
                 and d.creation_timedate between to_date('{0}','YYYY-MM-DD HH24:MI:SS') and to_date('{1}','YYYY-MM-DD HH24:MI:SS')", dateStart, dateEnd);
 
-            ADODB.Recordset rs = new ADODB.Recordset();
-            byte[] result = retrieveRDS(uriFujiRDS, query);
-
-            if (result == null) return;
-            string tempfile = Path.GetTempFileName();
-            ByteArrayToFile(tempfile, result);
-            rs.Open(tempfile, "Provider=MSPersist", ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockReadOnly, 0);
-
-            string notefile = Path.GetTempFileName();
-            WebClient client = new WebClient();
-            client.Credentials = myCredentialCache;
-
-            dt = new DataTable();
-            dt.Columns.Add("Accession", typeof(string));
-            dt.Columns.Add("MRN", typeof(string));
-            dt.Columns.Add("Procedure", typeof(string));
-            dt.Columns.Add("Name", typeof(string));
-            dt.Columns.Add("Study Time", typeof(string));
-            dt.Columns.Add("Note Time", typeof(string));
-            dt.Columns.Add("Note", typeof(string));
-            dt.Columns.Add("Reports", typeof(string));
-
-            DateTime lastprogress = DateTime.Now;
-
-            while (!rs.EOF)
-            {
-                string http_url = rs.Fields["http_url"].Value.ToString();
-                string https_url = rs.Fields["https_url"].Value.ToString();
-                string accnum = rs.Fields["ris_study_euid"].Value.ToString();
-                string proc = rs.Fields["description"].Value.ToString();
-                string proc_code = rs.Fields["code"].Value.ToString();
-                string filename = rs.Fields["filename"].Value.ToString();
-                string mrn = rs.Fields["internal_euid"].Value.ToString();
-                string lastname = rs.Fields["last_name"].Value.ToString();
-                string firstname = rs.Fields["first_name"].Value.ToString();
-                string middlename = rs.Fields["middle_name"].Value.ToString();
-                string study_time = ((DateTime) rs.Fields["study_timedate"].Value).ToString("s").Replace('T',' ');
-                string creation_time = ((DateTime)rs.Fields["creation_timedate"].Value).ToString("s").Replace('T', ' ');
-                
-
-                if (url.StartsWith("https"))
-                {
-                    filename = https_url + filename;
-                }
-                else
-                {
-                    filename = http_url + filename;
-                }
-                client.DownloadFile(filename, notefile);
-                string note = parseNote(notefile);
-
-                string name = (lastname + ", " + firstname + " " + middlename).Trim();
-
-                dt.Rows.Add(accnum, mrn, proc, name, study_time, creation_time, note, "");
-
-                rs.MoveNext();
-                pObj.dt = dt;
-                backgroundWorker.ReportProgress(0, pObj);
-            }
-
-
-            rs.Close();
-            File.Delete(tempfile);
-
-            int totalNotes = dt.Rows.Count;
-            int current = 0;
-            foreach (DataRow dr in dt.Rows)
-            {
-                // Retrieve reports here
-
-                query = String.Format(@"select * from storage s,document d,study_document sd,study st
-                  where d.id = sd.document_uid 
-                    and s.id=d.storage_uid 
-                    and st.id=sd.study_uid
-                    and d.name='Report'
-                    and st.ris_study_euid='{0}'
-                    order by d.creation_timedate", dr["Accession"]);
-                //dr["Reports"] = query;
-
-                result = retrieveRDS(uriFujiRDS, query);
+                ADODB.Recordset rs = new ADODB.Recordset();
+                byte[] result = retrieveRDS(uriFujiRDS, query);
 
                 if (result == null) return;
-                tempfile = Path.GetTempFileName();
+                string tempfile = Path.GetTempFileName();
                 ByteArrayToFile(tempfile, result);
                 rs.Open(tempfile, "Provider=MSPersist", ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockReadOnly, 0);
-                string report="";
+
+                string notefile = Path.GetTempFileName();
+                WebClient client = new WebClient();
+                client.Credentials = myCredentialCache;
+
+                dt = new DataTable();
+                
+                dt.Columns.Add("Name", typeof(string));
+                dt.Columns.Add("MRN", typeof(string));
+                dt.Columns.Add("Accession", typeof(string));
+                dt.Columns.Add("Procedure", typeof(string));
+                dt.Columns.Add("Study Time", typeof(string));
+                dt.Columns.Add("Note Time", typeof(string));
+                dt.Columns.Add("Note", typeof(string));
+                dt.Columns.Add("Reports", typeof(string));
+
+                DateTime lastprogress = DateTime.Now;
 
                 while (!rs.EOF)
                 {
                     string http_url = rs.Fields["http_url"].Value.ToString();
                     string https_url = rs.Fields["https_url"].Value.ToString();
-                    string doctype = rs.Fields["name"].Value.ToString();
+                    string accnum = rs.Fields["ris_study_euid"].Value.ToString();
+                    string proc = rs.Fields["description"].Value.ToString();
+                    string proc_code = rs.Fields["code"].Value.ToString();
                     string filename = rs.Fields["filename"].Value.ToString();
+                    string mrn = rs.Fields["internal_euid"].Value.ToString();
+                    string lastname = rs.Fields["last_name"].Value.ToString();
+                    string firstname = rs.Fields["first_name"].Value.ToString();
+                    string middlename = rs.Fields["middle_name"].Value.ToString();
+                    string study_time = ((DateTime)rs.Fields["study_timedate"].Value).ToString("s").Replace('T', ' ');
+                    string creation_time = ((DateTime)rs.Fields["creation_timedate"].Value).ToString("s").Replace('T', ' ');
+
 
                     if (url.StartsWith("https"))
                     {
@@ -218,33 +167,107 @@ namespace PrelimCheck
                         filename = http_url + filename;
                     }
 
-                    client.DownloadFile(filename, notefile);
+                    string note = "";
+                    try
+                    {
+                        client.DownloadFile(filename, notefile);
+                        note = parseNote(notefile);
+                    }
+                    catch
+                    {
+                        note = "Error downloading note.";
+                    }
 
-                    report += parseReport(notefile, rbCounty.Checked);
-                    
+                    string name = (lastname + ", " + firstname + " " + middlename).Trim();
+
+                    dt.Rows.Add(name, mrn, accnum, proc, study_time, creation_time, note, "");
+
                     rs.MoveNext();
-
-                    if (!rs.EOF) report += "\r\n\r\n======\r\n\r\n";
+                    pObj.dt = dt;
+                    backgroundWorker.ReportProgress(0, pObj);
                 }
+
+
                 rs.Close();
                 File.Delete(tempfile);
-                dr["Reports"] = report;
 
-                current += 1;
-                if ((DateTime.Now - lastprogress).Milliseconds > 50)
+                int totalNotes = dt.Rows.Count;
+                int current = 0;
+                foreach (DataRow dr in dt.Rows)
                 {
-                    backgroundWorker.ReportProgress(current * 100 / totalNotes, pObj);
-                    lastprogress = DateTime.Now;
+                    // Retrieve reports here
+
+                    query = String.Format(@"select * from storage s,document d,study_document sd,study st
+                  where d.id = sd.document_uid 
+                    and s.id=d.storage_uid 
+                    and st.id=sd.study_uid
+                    and d.name='Report'
+                    and st.ris_study_euid='{0}'
+                    order by d.creation_timedate", dr["Accession"]);
+                    //dr["Reports"] = query;
+
+                    result = retrieveRDS(uriFujiRDS, query);
+
+                    if (result == null) return;
+                    tempfile = Path.GetTempFileName();
+                    ByteArrayToFile(tempfile, result);
+                    rs.Open(tempfile, "Provider=MSPersist", ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockReadOnly, 0);
+                    string report = "";
+
+                    while (!rs.EOF)
+                    {
+                        string http_url = rs.Fields["http_url"].Value.ToString();
+                        string https_url = rs.Fields["https_url"].Value.ToString();
+                        string doctype = rs.Fields["name"].Value.ToString();
+                        string filename = rs.Fields["filename"].Value.ToString();
+
+                        if (url.StartsWith("https"))
+                        {
+                            filename = https_url + filename;
+                        }
+                        else
+                        {
+                            filename = http_url + filename;
+                        }
+
+                        try
+                        {
+                            client.DownloadFile(filename, notefile);
+                            report += parseReport(notefile, rbCounty.Checked);
+                        }
+                        catch
+                        {
+                            report += "Error downloading report.";
+                        }
+
+
+                        rs.MoveNext();
+
+                        if (!rs.EOF) report += "\r\n\r\n======\r\n\r\n";
+                    }
+                    rs.Close();
+                    File.Delete(tempfile);
+                    dr["Reports"] = report;
+
+                    current += 1;
+                    if ((DateTime.Now - lastprogress).Milliseconds > 50)
+                    {
+                        backgroundWorker.ReportProgress(current * 100 / totalNotes, pObj);
+                        lastprogress = DateTime.Now;
+                    }
                 }
+                File.Delete(notefile);
+
+
+                pObj.updateDT = true;
+
+
+                backgroundWorker.ReportProgress(100, pObj);
             }
-            File.Delete(notefile);
-
-
-            pObj.updateDT = true;
-            changeFilter();
-
-            backgroundWorker.ReportProgress(100, pObj);
-
+            catch (Exception ex)
+            {
+                textBoxNote.Text = ex.Message+ "\r\n"+ ex.StackTrace;
+            }
 
         }
 
@@ -336,6 +359,7 @@ namespace PrelimCheck
             btnSave.Enabled = true;
             btnRetrieve.Enabled = true;
             btnLoad.Enabled = true;
+            changeFilter();
             dgv_Results.Select();
         }
 
@@ -483,13 +507,18 @@ namespace PrelimCheck
         {
             if (dgv_Results.SelectedRows.Count > 0)
             {
-                textBoxNote.Text = dgv_Results.SelectedRows[0].Cells["Note"].Value.ToString();
-                textBoxReport.Text = dgv_Results.SelectedRows[0].Cells["Reports"].Value.ToString();
+                DataGridViewCellCollection cells = dgv_Results.SelectedRows[0].Cells;
+                textBoxNote.Text = cells["Note"].Value.ToString();
+                textBoxReport.Text = cells["Reports"].Value.ToString();
+                textBoxMRN.Text = cells["MRN"].Value.ToString();
+                textBoxAccession.Text = cells["Accession"].Value.ToString();
             }
             else
             {
                 textBoxNote.Text = "";
                 textBoxReport.Text = "";
+                textBoxMRN.Text = "";
+                textBoxAccession.Text = "";
             }
         }
 

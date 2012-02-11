@@ -57,6 +57,9 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.textBoxFilter2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.textBoxMRN = new System.Windows.Forms.TextBox();
+            this.textBoxAccession = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Results)).BeginInit();
@@ -66,6 +69,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -141,7 +145,7 @@
             this.textBoxNote.Name = "textBoxNote";
             this.textBoxNote.ReadOnly = true;
             this.textBoxNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxNote.Size = new System.Drawing.Size(308, 202);
+            this.textBoxNote.Size = new System.Drawing.Size(308, 172);
             this.textBoxNote.TabIndex = 0;
             // 
             // textBoxFilter1
@@ -252,6 +256,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanel2);
             this.splitContainer1.Panel1.Controls.Add(this.textBoxNote);
             // 
             // splitContainer1.Panel2
@@ -382,6 +387,47 @@
             this.label6.TabIndex = 7;
             this.label6.Text = "Filter 2:";
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.textBoxMRN, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.textBoxAccession, 1, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 178);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(304, 29);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // textBoxMRN
+            // 
+            this.textBoxMRN.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxMRN.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxMRN.Location = new System.Drawing.Point(3, 3);
+            this.textBoxMRN.Name = "textBoxMRN";
+            this.textBoxMRN.ReadOnly = true;
+            this.textBoxMRN.Size = new System.Drawing.Size(146, 20);
+            this.textBoxMRN.TabIndex = 0;
+            // 
+            // textBoxAccession
+            // 
+            this.textBoxAccession.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxAccession.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxAccession.Location = new System.Drawing.Point(155, 3);
+            this.textBoxAccession.Name = "textBoxAccession";
+            this.textBoxAccession.ReadOnly = true;
+            this.textBoxAccession.Size = new System.Drawing.Size(146, 20);
+            this.textBoxAccession.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -419,6 +465,8 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -454,6 +502,9 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.TextBox textBoxFilter2;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TextBox textBoxMRN;
+        private System.Windows.Forms.TextBox textBoxAccession;
     }
 }
 
