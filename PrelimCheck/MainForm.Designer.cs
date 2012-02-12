@@ -35,7 +35,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxReport = new System.Windows.Forms.TextBox();
             this.textBoxNote = new System.Windows.Forms.TextBox();
-            this.textBoxFilter1 = new System.Windows.Forms.TextBox();
+            this.textBoxFilter = new System.Windows.Forms.TextBox();
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.btnRetrieve = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -58,8 +58,6 @@
             this.cbDuration = new System.Windows.Forms.ComboBox();
             this.btnLoad = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.textBoxFilter2 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Results)).BeginInit();
@@ -148,13 +146,13 @@
             this.textBoxNote.Size = new System.Drawing.Size(308, 172);
             this.textBoxNote.TabIndex = 0;
             // 
-            // textBoxFilter1
+            // textBoxFilter
             // 
-            this.textBoxFilter1.Location = new System.Drawing.Point(55, 90);
-            this.textBoxFilter1.Name = "textBoxFilter1";
-            this.textBoxFilter1.Size = new System.Drawing.Size(80, 20);
-            this.textBoxFilter1.TabIndex = 6;
-            this.textBoxFilter1.TextChanged += new System.EventHandler(this.textBoxFilter1_TextChanged);
+            this.textBoxFilter.Location = new System.Drawing.Point(70, 90);
+            this.textBoxFilter.Name = "textBoxFilter";
+            this.textBoxFilter.Size = new System.Drawing.Size(197, 20);
+            this.textBoxFilter.TabIndex = 6;
+            this.textBoxFilter.TextChanged += new System.EventHandler(this.textBoxFilter_TextChanged);
             // 
             // dateTimePickerStart
             // 
@@ -244,9 +242,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 93);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.Size = new System.Drawing.Size(56, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Filter 1:";
+            this.label2.Text = "Filter Text:";
             // 
             // splitContainer1
             // 
@@ -275,12 +273,12 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.textBoxMRN, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.textBoxAccession, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 178);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(-3, 178);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(304, 29);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(311, 29);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // textBoxMRN
@@ -292,7 +290,7 @@
             this.textBoxMRN.Location = new System.Drawing.Point(3, 3);
             this.textBoxMRN.Name = "textBoxMRN";
             this.textBoxMRN.ReadOnly = true;
-            this.textBoxMRN.Size = new System.Drawing.Size(146, 20);
+            this.textBoxMRN.Size = new System.Drawing.Size(149, 20);
             this.textBoxMRN.TabIndex = 0;
             // 
             // textBoxAccession
@@ -301,10 +299,10 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxAccession.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxAccession.Location = new System.Drawing.Point(155, 3);
+            this.textBoxAccession.Location = new System.Drawing.Point(158, 3);
             this.textBoxAccession.Name = "textBoxAccession";
             this.textBoxAccession.ReadOnly = true;
-            this.textBoxAccession.Size = new System.Drawing.Size(146, 20);
+            this.textBoxAccession.Size = new System.Drawing.Size(150, 20);
             this.textBoxAccession.TabIndex = 1;
             // 
             // backgroundWorker
@@ -411,30 +409,11 @@
             // 
             this.openFileDialog.Filter = "CSV files|*.csv";
             // 
-            // textBoxFilter2
-            // 
-            this.textBoxFilter2.Location = new System.Drawing.Point(197, 90);
-            this.textBoxFilter2.Name = "textBoxFilter2";
-            this.textBoxFilter2.Size = new System.Drawing.Size(80, 20);
-            this.textBoxFilter2.TabIndex = 8;
-            this.textBoxFilter2.TextChanged += new System.EventHandler(this.textBoxFilter2_TextChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(155, 93);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(41, 13);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Filter 2:";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(645, 514);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.textBoxFilter2);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.cbDuration);
             this.Controls.Add(this.label5);
@@ -445,7 +424,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRetrieve);
             this.Controls.Add(this.dateTimePickerStart);
-            this.Controls.Add(this.textBoxFilter1);
+            this.Controls.Add(this.textBoxFilter);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.splitContainer2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -480,7 +459,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxReport;
         private System.Windows.Forms.TextBox textBoxNote;
-        private System.Windows.Forms.TextBox textBoxFilter1;
+        private System.Windows.Forms.TextBox textBoxFilter;
         private System.Windows.Forms.DateTimePicker dateTimePickerStart;
         private System.Windows.Forms.Button btnRetrieve;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -500,8 +479,6 @@
         private System.Windows.Forms.ComboBox cbDuration;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.TextBox textBoxFilter2;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TextBox textBoxMRN;
         private System.Windows.Forms.TextBox textBoxAccession;

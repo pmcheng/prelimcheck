@@ -549,12 +549,16 @@ namespace PrelimCheck
         {
             if (dt != null)
             {
-                string text1 = textBoxFilter1.Text.Replace("'", "''");
-                string text2 = textBoxFilter2.Text.Replace("'", "''");
-                dt.DefaultView.RowFilter = "(Note LIKE '*" + text1 + "*' OR "
-                                         + "Reports LIKE '*" + text1 + "*') AND "
-                                         + "(Note LIKE '*" + text2 + "*' OR "
-                                         + "Reports LIKE '*" + text2 + "*')" ;
+                string[] words = textBoxFilter.Text.Trim().Replace("'","''").Split(' ');
+                string filter="";
+                for (int i = 0; i < words.Length; i++)
+                {
+                    if (i > 0) filter += " AND ";
+                    filter += "(Note LIKE '*" + words[i] + "*' OR "
+                          + "Reports LIKE '*" + words[i] + "*')";
+                }
+
+                dt.DefaultView.RowFilter = filter;
             }
         }
 
@@ -583,12 +587,7 @@ namespace PrelimCheck
             }
         }
 
-        private void textBoxFilter1_TextChanged(object sender, EventArgs e)
-        {
-            changeFilter();
-        }
-
-        private void textBoxFilter2_TextChanged(object sender, EventArgs e)
+        private void textBoxFilter_TextChanged(object sender, EventArgs e)
         {
             changeFilter();
         }
