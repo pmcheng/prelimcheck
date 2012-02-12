@@ -130,7 +130,7 @@ namespace PrelimCheck
                 client.Credentials = myCredentialCache;
 
                 dt = new DataTable();
-                
+
                 dt.Columns.Add("Name", typeof(string));
                 dt.Columns.Add("MRN", typeof(string));
                 dt.Columns.Add("Accession", typeof(string));
@@ -237,7 +237,7 @@ namespace PrelimCheck
                         }
                         catch (Exception ex)
                         {
-                            report += "Error downloading report: "+ex.Message;
+                            report += "Error downloading report: " + ex.Message;
                         }
 
 
@@ -266,7 +266,7 @@ namespace PrelimCheck
             }
             catch (Exception ex)
             {
-                textBoxNote.Text = ex.Message+ "\r\n"+ ex.StackTrace;
+                textBoxNote.Text = ex.Message + "\r\n" + ex.StackTrace;
             }
 
         }
@@ -280,7 +280,7 @@ namespace PrelimCheck
             HtmlAgilityPack.HtmlNodeCollection header_nodes = doc.DocumentNode.SelectNodes("//div[@class=\"clsNoteHeader\"]");
             HtmlAgilityPack.HtmlNodeCollection content_nodes = doc.DocumentNode.SelectNodes("//div[@class=\"clsNoteData\"]");
 
-            string note="";
+            string note = "";
             for (int i = 0; i < header_nodes.Count; i++)
             {
                 string header = header_nodes[i].InnerText;
@@ -290,9 +290,9 @@ namespace PrelimCheck
                 string content = content_nodes[i].InnerText;
                 content = HttpUtility.HtmlDecode(content);
                 note += content.Trim();
-                if (i < (header_nodes.Count - 1)) 
-                { 
-                    note += "\r\n\r\n====\r\n\r\n"; 
+                if (i < (header_nodes.Count - 1))
+                {
+                    note += "\r\n\r\n====\r\n\r\n";
                 }
             }
 
@@ -508,10 +508,32 @@ namespace PrelimCheck
             if (dgv_Results.SelectedRows.Count > 0)
             {
                 DataGridViewCellCollection cells = dgv_Results.SelectedRows[0].Cells;
-                textBoxNote.Text = cells["Note"].Value.ToString();
-                textBoxReport.Text = cells["Reports"].Value.ToString();
-                textBoxMRN.Text = cells["MRN"].Value.ToString();
-                textBoxAccession.Text = cells["Accession"].Value.ToString();
+
+                if (dgv_Results.Columns.Contains("Note"))
+                {
+                    textBoxNote.Text = cells["Note"].Value.ToString();
+                }
+                if (dgv_Results.Columns.Contains("Reports"))
+                {
+                    textBoxReport.Text = cells["Reports"].Value.ToString();
+
+                    int impression_loc = textBoxReport.Text.ToLower().IndexOf("impression");
+                    if (impression_loc > 0)
+                    {
+                        textBoxReport.SelectionStart = textBoxReport.Text.Length;
+                        textBoxReport.ScrollToCaret();
+                        textBoxReport.SelectionStart = impression_loc;
+                        textBoxReport.ScrollToCaret();
+                    }
+                }
+                if (dgv_Results.Columns.Contains("MRN"))
+                {
+                    textBoxMRN.Text = cells["MRN"].Value.ToString();
+                }
+                if (dgv_Results.Columns.Contains("Accession"))
+                {
+                    textBoxAccession.Text = cells["Accession"].Value.ToString();
+                }
             }
             else
             {
@@ -532,7 +554,8 @@ namespace PrelimCheck
                 {
                     string outputfile = saveFileDialog.FileName;
                     DataTable dt_out = dt.DefaultView.ToTable();
-                    if (dt_out.Columns.Contains("Name")) {
+                    if (dt_out.Columns.Contains("Name"))
+                    {
                         dt_out.Columns.Remove("Name");
                     }
                     string s = CsvWriter.WriteToString(dt_out, true, true);
@@ -549,8 +572,8 @@ namespace PrelimCheck
         {
             if (dt != null)
             {
-                string[] words = textBoxFilter.Text.Trim().Replace("'","''").Split(' ');
-                string filter="";
+                string[] words = textBoxFilter.Text.Trim().Replace("'", "''").Split(' ');
+                string filter = "";
                 for (int i = 0; i < words.Length; i++)
                 {
                     if (i > 0) filter += " AND ";
@@ -575,7 +598,7 @@ namespace PrelimCheck
                         dt_test.Load(csv);
                     }
                     dt = dt_test;
-                    
+
                     btnSave.Enabled = true;
                     dgv_Results.DataSource = dt;
                     dgv_Results.Select();
