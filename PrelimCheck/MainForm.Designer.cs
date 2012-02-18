@@ -148,9 +148,9 @@
             // 
             // textBoxFilter
             // 
-            this.textBoxFilter.Location = new System.Drawing.Point(70, 90);
+            this.textBoxFilter.Location = new System.Drawing.Point(70, 89);
             this.textBoxFilter.Name = "textBoxFilter";
-            this.textBoxFilter.Size = new System.Drawing.Size(197, 20);
+            this.textBoxFilter.Size = new System.Drawing.Size(214, 20);
             this.textBoxFilter.TabIndex = 6;
             this.textBoxFilter.TextChanged += new System.EventHandler(this.textBoxFilter_TextChanged);
             // 
@@ -167,9 +167,9 @@
             // 
             this.btnRetrieve.Image = ((System.Drawing.Image)(resources.GetObject("btnRetrieve.Image")));
             this.btnRetrieve.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRetrieve.Location = new System.Drawing.Point(296, 87);
+            this.btnRetrieve.Location = new System.Drawing.Point(386, 17);
             this.btnRetrieve.Name = "btnRetrieve";
-            this.btnRetrieve.Size = new System.Drawing.Size(83, 23);
+            this.btnRetrieve.Size = new System.Drawing.Size(83, 52);
             this.btnRetrieve.TabIndex = 13;
             this.btnRetrieve.Text = "Download";
             this.btnRetrieve.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -181,7 +181,7 @@
             this.groupBox1.Controls.Add(this.rbKeck);
             this.groupBox1.Controls.Add(this.rbKeckRemote);
             this.groupBox1.Controls.Add(this.rbCounty);
-            this.groupBox1.Location = new System.Drawing.Point(476, 12);
+            this.groupBox1.Location = new System.Drawing.Point(479, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(153, 98);
             this.groupBox1.TabIndex = 14;
@@ -326,9 +326,9 @@
             // 
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(397, 87);
+            this.btnSave.Location = new System.Drawing.Point(310, 88);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(65, 23);
+            this.btnSave.Size = new System.Drawing.Size(69, 23);
             this.btnSave.TabIndex = 13;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -396,9 +396,9 @@
             // 
             this.btnLoad.Image = ((System.Drawing.Image)(resources.GetObject("btnLoad.Image")));
             this.btnLoad.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLoad.Location = new System.Drawing.Point(397, 58);
+            this.btnLoad.Location = new System.Drawing.Point(394, 88);
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(65, 23);
+            this.btnLoad.Size = new System.Drawing.Size(69, 23);
             this.btnLoad.TabIndex = 13;
             this.btnLoad.Text = "Open";
             this.btnLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
