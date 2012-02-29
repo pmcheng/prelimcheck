@@ -58,6 +58,7 @@
             this.cbDuration = new System.Windows.Forms.ComboBox();
             this.btnLoad = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.labelStatus = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Results)).BeginInit();
@@ -129,7 +130,7 @@
             this.textBoxReport.Name = "textBoxReport";
             this.textBoxReport.ReadOnly = true;
             this.textBoxReport.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxReport.Size = new System.Drawing.Size(309, 202);
+            this.textBoxReport.Size = new System.Drawing.Size(309, 197);
             this.textBoxReport.TabIndex = 0;
             // 
             // textBoxNote
@@ -143,7 +144,7 @@
             this.textBoxNote.Name = "textBoxNote";
             this.textBoxNote.ReadOnly = true;
             this.textBoxNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxNote.Size = new System.Drawing.Size(308, 172);
+            this.textBoxNote.Size = new System.Drawing.Size(308, 167);
             this.textBoxNote.TabIndex = 0;
             // 
             // textBoxFilter
@@ -170,7 +171,7 @@
             this.btnRetrieve.Location = new System.Drawing.Point(386, 17);
             this.btnRetrieve.Name = "btnRetrieve";
             this.btnRetrieve.Size = new System.Drawing.Size(83, 52);
-            this.btnRetrieve.TabIndex = 13;
+            this.btnRetrieve.TabIndex = 8;
             this.btnRetrieve.Text = "Download";
             this.btnRetrieve.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnRetrieve.UseVisualStyleBackColor = true;
@@ -184,7 +185,7 @@
             this.groupBox1.Location = new System.Drawing.Point(479, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(153, 98);
-            this.groupBox1.TabIndex = 14;
+            this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             // 
             // rbKeck
@@ -233,7 +234,7 @@
             this.dgv_Results.ReadOnly = true;
             this.dgv_Results.RowHeadersVisible = false;
             this.dgv_Results.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_Results.Size = new System.Drawing.Size(621, 145);
+            this.dgv_Results.Size = new System.Drawing.Size(621, 140);
             this.dgv_Results.TabIndex = 0;
             this.dgv_Results.SelectionChanged += new System.EventHandler(this.dgv_Results_SelectionChanged);
             // 
@@ -260,7 +261,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.textBoxReport);
-            this.splitContainer1.Size = new System.Drawing.Size(621, 202);
+            this.splitContainer1.Size = new System.Drawing.Size(621, 197);
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 10;
             // 
@@ -273,7 +274,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.textBoxMRN, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.textBoxAccession, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(-3, 178);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(-3, 173);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -317,7 +318,7 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(12, 487);
+            this.progressBar.Location = new System.Drawing.Point(12, 491);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(621, 19);
             this.progressBar.TabIndex = 13;
@@ -329,7 +330,7 @@
             this.btnSave.Location = new System.Drawing.Point(310, 88);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(69, 23);
-            this.btnSave.TabIndex = 13;
+            this.btnSave.TabIndex = 9;
             this.btnSave.Text = "Save";
             this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnSave.UseVisualStyleBackColor = true;
@@ -364,9 +365,9 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainer2.Size = new System.Drawing.Size(621, 351);
-            this.splitContainer2.SplitterDistance = 145;
-            this.splitContainer2.TabIndex = 12;
+            this.splitContainer2.Size = new System.Drawing.Size(621, 341);
+            this.splitContainer2.SplitterDistance = 140;
+            this.splitContainer2.TabIndex = 7;
             // 
             // label5
             // 
@@ -399,7 +400,7 @@
             this.btnLoad.Location = new System.Drawing.Point(394, 88);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(69, 23);
-            this.btnLoad.TabIndex = 13;
+            this.btnLoad.TabIndex = 10;
             this.btnLoad.Text = "Open";
             this.btnLoad.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnLoad.UseVisualStyleBackColor = true;
@@ -409,11 +410,23 @@
             // 
             this.openFileDialog.Filter = "CSV files|*.csv";
             // 
+            // labelStatus
+            // 
+            this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.labelStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.labelStatus.Location = new System.Drawing.Point(12, 472);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.ReadOnly = true;
+            this.labelStatus.Size = new System.Drawing.Size(621, 13);
+            this.labelStatus.TabIndex = 12;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(645, 514);
+            this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.cbDuration);
             this.Controls.Add(this.label5);
@@ -482,6 +495,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.TextBox textBoxMRN;
         private System.Windows.Forms.TextBox textBoxAccession;
+        private System.Windows.Forms.TextBox labelStatus;
     }
 }
 

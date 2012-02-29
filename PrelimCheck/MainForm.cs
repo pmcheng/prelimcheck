@@ -51,6 +51,7 @@ namespace PrelimCheck
             openFileDialog.InitialDirectory = Application.StartupPath;
 
             btnSave.Enabled = false;
+            labelStatus.Text = "";
 
             typeof(DataGridView).InvokeMember(
                "DoubleBuffered",
@@ -64,32 +65,36 @@ namespace PrelimCheck
 
         private void btnRetrieve_Click(object sender, EventArgs e)
         {
-            btnRetrieve.Enabled = false;
-            btnSave.Enabled = false;
-            btnLoad.Enabled = false;
-
-            string url = "http://lacsynapse/SynapseScripts/fujirds.asp";
-            if (rbKeck.Checked) url = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
-            if (rbKeckRemote.Checked) url = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
-
-            Uri uriFujiRDS = new Uri(url);
-
-            string query = "select * from storage where rownum=1"; // test query
-            byte[] result = retrieveRDS(uriFujiRDS, query);
-            if (result != null)
+            try
             {
-                BackgroundParameter bObj = new BackgroundParameter();
-                bObj.url = url;
-                bObj.duration = cbDuration.Text;
-                backgroundWorker.RunWorkerAsync(bObj);
+                btnRetrieve.Enabled = false;
+                btnSave.Enabled = false;
+                btnLoad.Enabled = false;
+                labelStatus.Text = "";
+
+                string url = "http://lacsynapse/SynapseScripts/fujirds.asp";
+                if (rbKeck.Checked) url = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
+                if (rbKeckRemote.Checked) url = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
+
+                Uri uriFujiRDS = new Uri(url);
+
+                string query = "select * from storage where rownum=1"; // test query
+                byte[] result = retrieveRDS(uriFujiRDS, query);
+                if (result != null)
+                {
+                    BackgroundParameter bObj = new BackgroundParameter();
+                    bObj.url = url;
+                    bObj.duration = cbDuration.Text;
+                    backgroundWorker.RunWorkerAsync(bObj);
+                }
             }
-            else
+            catch (Exception ex)
             {
+                labelStatus.Text = ex.Message;
                 btnRetrieve.Enabled = true;
                 btnLoad.Enabled = true;
+
             }
-
-
         }
 
         private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -266,7 +271,7 @@ namespace PrelimCheck
             }
             catch (Exception ex)
             {
-                textBoxNote.Text = ex.Message + "\r\n" + ex.StackTrace;
+                labelStatus.Text = ex.Message;
             }
 
         }
@@ -492,11 +497,8 @@ namespace PrelimCheck
                             }
                         }
                     }
-                    else
-                    {
-                        //textBoxLine(e.Message + "\r\n" + e.StackTrace);
-                    }
-                    return null;
+                    throw e;
+                    //return null;
                 }
 
             }
@@ -544,29 +546,6 @@ namespace PrelimCheck
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            if (dt != null)
-            {
-                MessageBoxHelper.PrepToCenterMessageBoxOnForm(this);
-                DialogResult dr = saveFileDialog.ShowDialog(this);
-                if (dr == DialogResult.OK)
-                {
-                    string outputfile = saveFileDialog.FileName;
-                    DataTable dt_out = dt.DefaultView.ToTable();
-                    if (dt_out.Columns.Contains("Name"))
-                    {
-                        dt_out.Columns.Remove("Name");
-                    }
-                    string s = CsvWriter.WriteToString(dt_out, true, true);
-
-                    TextWriter tw = new StreamWriter(outputfile);
-                    tw.WriteLine(s);
-                    tw.Close();
-
-                }
-            }
-        }
 
         private void changeFilter()
         {
@@ -630,8 +609,40 @@ namespace PrelimCheck
             return results;
         }
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            labelStatus.Text = "";
+            if (dt != null)
+            {
+                try
+                {
+                    DialogResult dr = saveFileDialog.ShowDialog(this);
+                    if (dr == DialogResult.OK)
+                    {
+                        string outputfile = saveFileDialog.FileName;
+                        DataTable dt_out = dt.DefaultView.ToTable();
+                        if (dt_out.Columns.Contains("Name"))
+                        {
+                            dt_out.Columns.Remove("Name");
+                        }
+                        string s = CsvWriter.WriteToString(dt_out, true, true);
+
+                        TextWriter tw = new StreamWriter(outputfile);
+                        tw.WriteLine(s);
+                        tw.Close();
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    labelStatus.Text = ex.Message;
+                }
+            }
+        }
+
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            labelStatus.Text = "";
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -648,9 +659,9 @@ namespace PrelimCheck
                     dgv_Results.DataSource = dt;
                     dgv_Results.Select();
                 }
-                catch
+                catch (Exception ex)
                 {
-
+                    labelStatus.Text = ex.Message;
                 }
             }
         }
