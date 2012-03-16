@@ -19,6 +19,11 @@ namespace PrelimCheck
         CredentialCache myCredentialCache;
         DataTable dt;
 
+        private string urlCounty = "http://lacsynapse/SynapseScripts/fujirds.asp";
+        private string urlKeck = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
+        private string urlKeckRemote = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
+        private string urlOVMC = "http://ovsynapse/SynapseScripts/fujirds.asp";
+
         public MainForm()
         {
             InitializeComponent();
@@ -42,7 +47,7 @@ namespace PrelimCheck
             dtime = dtime.Date.AddDays(-1);
             dtime = dtime.Date + new TimeSpan(18, 0, 0);
             dateTimePickerStart.Value = dtime;
-            dtime = dtime.Date.AddDays(1);
+            //dtime = dtime.Date.AddDays(1);
             //dtime = dtime.Date + new TimeSpan(8, 0, 0);
             //dateTimePickerEnd.Value = dtime;
             cbDuration.SelectedIndex = 2;
@@ -72,9 +77,10 @@ namespace PrelimCheck
                 btnLoad.Enabled = false;
                 labelStatus.Text = "";
 
-                string url = "http://lacsynapse/SynapseScripts/fujirds.asp";
-                if (rbKeck.Checked) url = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
-                if (rbKeckRemote.Checked) url = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
+                string url = urlCounty;
+                if (rbKeck.Checked) url = urlKeck;
+                if (rbKeckRemote.Checked) url = urlKeckRemote;
+                if (rbOVMC.Checked) url = urlOVMC;
 
                 Uri uriFujiRDS = new Uri(url);
 
@@ -238,7 +244,7 @@ namespace PrelimCheck
                         try
                         {
                             client.DownloadFile(filename, notefile);
-                            report += parseReport(notefile, rbCounty.Checked);
+                            report += parseReport(notefile, url);
                         }
                         catch (Exception ex)
                         {
@@ -305,12 +311,20 @@ namespace PrelimCheck
 
         }
 
-        public string parseReport(string reportfile, bool county)
+        public string parseReport(string reportfile, string url)
         {
             string report_text;
-            if (county)
+            if (url == urlCounty)
             {
                 report_text = File.ReadAllText(reportfile);
+            }
+            else if (url == urlOVMC)
+            {
+                using (TextReader tr = new StreamReader(reportfile))
+                {
+                    tr.ReadLine();
+                    report_text = tr.ReadToEnd();
+                }
             }
             else
             {
@@ -584,7 +598,7 @@ namespace PrelimCheck
                     // at the start or send of a quoted section...
                     inQuote = !inQuote;
                 }
-                else if (currentCharacter==' ' && inQuote == false)
+                else if (currentCharacter == ' ' && inQuote == false)
                 {
                     // We've come to the end of a token, so we find the token,
                     // trim it and add it to the collection of results...

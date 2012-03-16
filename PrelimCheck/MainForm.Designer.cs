@@ -39,6 +39,7 @@
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.btnRetrieve = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbOVMC = new System.Windows.Forms.RadioButton();
             this.rbKeck = new System.Windows.Forms.RadioButton();
             this.rbKeckRemote = new System.Windows.Forms.RadioButton();
             this.rbCounty = new System.Windows.Forms.RadioButton();
@@ -179,19 +180,31 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rbOVMC);
             this.groupBox1.Controls.Add(this.rbKeck);
             this.groupBox1.Controls.Add(this.rbKeckRemote);
             this.groupBox1.Controls.Add(this.rbCounty);
             this.groupBox1.Location = new System.Drawing.Point(479, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(153, 98);
+            this.groupBox1.Size = new System.Drawing.Size(153, 99);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
+            // 
+            // rbOVMC
+            // 
+            this.rbOVMC.AutoSize = true;
+            this.rbOVMC.Location = new System.Drawing.Point(20, 75);
+            this.rbOVMC.Name = "rbOVMC";
+            this.rbOVMC.Size = new System.Drawing.Size(56, 17);
+            this.rbOVMC.TabIndex = 3;
+            this.rbOVMC.TabStop = true;
+            this.rbOVMC.Text = "OVMC";
+            this.rbOVMC.UseVisualStyleBackColor = true;
             // 
             // rbKeck
             // 
             this.rbKeck.AutoSize = true;
-            this.rbKeck.Location = new System.Drawing.Point(20, 43);
+            this.rbKeck.Location = new System.Drawing.Point(20, 33);
             this.rbKeck.Name = "rbKeck";
             this.rbKeck.Size = new System.Drawing.Size(113, 17);
             this.rbKeck.TabIndex = 1;
@@ -202,7 +215,7 @@
             // rbKeckRemote
             // 
             this.rbKeckRemote.AutoSize = true;
-            this.rbKeckRemote.Location = new System.Drawing.Point(20, 70);
+            this.rbKeckRemote.Location = new System.Drawing.Point(20, 54);
             this.rbKeckRemote.Name = "rbKeckRemote";
             this.rbKeckRemote.Size = new System.Drawing.Size(123, 17);
             this.rbKeckRemote.TabIndex = 2;
@@ -213,7 +226,7 @@
             // 
             this.rbCounty.AutoSize = true;
             this.rbCounty.Checked = true;
-            this.rbCounty.Location = new System.Drawing.Point(20, 16);
+            this.rbCounty.Location = new System.Drawing.Point(20, 12);
             this.rbCounty.Name = "rbCounty";
             this.rbCounty.Size = new System.Drawing.Size(58, 17);
             this.rbCounty.TabIndex = 0;
@@ -496,6 +509,7 @@
         private System.Windows.Forms.TextBox textBoxMRN;
         private System.Windows.Forms.TextBox textBoxAccession;
         private System.Windows.Forms.TextBox labelStatus;
+        private System.Windows.Forms.RadioButton rbOVMC;
     }
 }
 
