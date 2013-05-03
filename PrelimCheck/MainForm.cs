@@ -432,8 +432,8 @@ namespace PrelimCheck
 
         private byte[] retrieveRDS(Uri uriRDS, string query)
         {
-            string queryEsc = query.Replace(" ", "%20");
-            queryEsc = "cmd=" + queryEsc + "&";
+            query = "cmd=" + query + "&";
+            string queryEsc = System.Uri.EscapeUriString(query);
             byte[] buffer = new byte[65536];
             byte[] postBytes = Encoding.ASCII.GetBytes(queryEsc);
 
