@@ -41,7 +41,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbOVMC = new System.Windows.Forms.RadioButton();
             this.rbKeck = new System.Windows.Forms.RadioButton();
-            this.rbKeckRemote = new System.Windows.Forms.RadioButton();
             this.rbCounty = new System.Windows.Forms.RadioButton();
             this.dgv_Results = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
@@ -182,7 +181,6 @@
             // 
             this.groupBox1.Controls.Add(this.rbOVMC);
             this.groupBox1.Controls.Add(this.rbKeck);
-            this.groupBox1.Controls.Add(this.rbKeckRemote);
             this.groupBox1.Controls.Add(this.rbCounty);
             this.groupBox1.Location = new System.Drawing.Point(479, 12);
             this.groupBox1.Name = "groupBox1";
@@ -193,7 +191,7 @@
             // rbOVMC
             // 
             this.rbOVMC.AutoSize = true;
-            this.rbOVMC.Location = new System.Drawing.Point(20, 75);
+            this.rbOVMC.Location = new System.Drawing.Point(20, 70);
             this.rbOVMC.Name = "rbOVMC";
             this.rbOVMC.Size = new System.Drawing.Size(56, 17);
             this.rbOVMC.TabIndex = 3;
@@ -204,29 +202,19 @@
             // rbKeck
             // 
             this.rbKeck.AutoSize = true;
-            this.rbKeck.Location = new System.Drawing.Point(20, 33);
+            this.rbKeck.Location = new System.Drawing.Point(20, 43);
             this.rbKeck.Name = "rbKeck";
-            this.rbKeck.Size = new System.Drawing.Size(113, 17);
+            this.rbKeck.Size = new System.Drawing.Size(82, 17);
             this.rbKeck.TabIndex = 1;
             this.rbKeck.TabStop = true;
-            this.rbKeck.Text = "Keck/Norris (local)";
+            this.rbKeck.Text = "Keck/Norris";
             this.rbKeck.UseVisualStyleBackColor = true;
-            // 
-            // rbKeckRemote
-            // 
-            this.rbKeckRemote.AutoSize = true;
-            this.rbKeckRemote.Location = new System.Drawing.Point(20, 54);
-            this.rbKeckRemote.Name = "rbKeckRemote";
-            this.rbKeckRemote.Size = new System.Drawing.Size(123, 17);
-            this.rbKeckRemote.TabIndex = 2;
-            this.rbKeckRemote.Text = "Keck/Norris (remote)";
-            this.rbKeckRemote.UseVisualStyleBackColor = true;
             // 
             // rbCounty
             // 
             this.rbCounty.AutoSize = true;
             this.rbCounty.Checked = true;
-            this.rbCounty.Location = new System.Drawing.Point(20, 12);
+            this.rbCounty.Location = new System.Drawing.Point(20, 16);
             this.rbCounty.Name = "rbCounty";
             this.rbCounty.Size = new System.Drawing.Size(58, 17);
             this.rbCounty.TabIndex = 0;
@@ -490,7 +478,6 @@
         private System.Windows.Forms.Button btnRetrieve;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dgv_Results;
-        private System.Windows.Forms.RadioButton rbKeckRemote;
         private System.Windows.Forms.RadioButton rbCounty;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.SplitContainer splitContainer1;

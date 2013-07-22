@@ -20,8 +20,9 @@ namespace PrelimCheck
         DataTable dt;
 
         private string urlCounty = "http://lacsynapse/SynapseScripts/fujirds.asp";
-        private string urlKeck = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
-        private string urlKeckRemote = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
+        private string urlKeck = "https://keckimaging.usc.edu/SynapseScripts/fujirds.asp";
+        //private string urlKeck = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
+        //private string urlKeckRemote = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
         private string urlOVMC = "http://ovsynapse/SynapseScripts/fujirds.asp";
 
         public MainForm()
@@ -78,7 +79,7 @@ namespace PrelimCheck
 
                 string url = urlCounty;
                 if (rbKeck.Checked) url = urlKeck;
-                if (rbKeckRemote.Checked) url = urlKeckRemote;
+                //if (rbKeckRemote.Checked) url = urlKeckRemote;
                 if (rbOVMC.Checked) url = urlOVMC;
 
                 Uri uriFujiRDS = new Uri(url);
