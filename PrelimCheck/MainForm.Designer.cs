@@ -216,10 +216,10 @@
             this.rbCounty.Checked = true;
             this.rbCounty.Location = new System.Drawing.Point(20, 16);
             this.rbCounty.Name = "rbCounty";
-            this.rbCounty.Size = new System.Drawing.Size(58, 17);
+            this.rbCounty.Size = new System.Drawing.Size(67, 17);
             this.rbCounty.TabIndex = 0;
             this.rbCounty.TabStop = true;
-            this.rbCounty.Text = "County";
+            this.rbCounty.Text = "LACUSC";
             this.rbCounty.UseVisualStyleBackColor = true;
             // 
             // dgv_Results
@@ -385,6 +385,7 @@
             this.cbDuration.FormattingEnabled = true;
             this.cbDuration.Items.AddRange(new object[] {
             "6",
+            "9",
             "12",
             "18",
             "24",

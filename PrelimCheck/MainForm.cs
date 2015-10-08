@@ -19,10 +19,9 @@ namespace PrelimCheck
         CredentialCache myCredentialCache;
         DataTable dt;
 
-        private string urlCounty = "http://lacsynapse/SynapseScripts/fujirds.asp";
+        private string urlCounty = "http://dhssynapse.hosted.lac.com/SynapseScripts/fujirds.asp";
+        //private string urlCounty = "http://lacsynapse/SynapseScripts/fujirds.asp";
         private string urlKeck = "https://keckimaging.usc.edu/SynapseScripts/fujirds.asp";
-        //private string urlKeck = "http://synapse.uscuh.com/SynapseScripts/fujirds.asp";
-        //private string urlKeckRemote = "https://external.synapse.uscuh.com/SynapseScripts/fujirds.asp";
         private string urlOVMC = "http://ovsynapse/SynapseScripts/fujirds.asp";
 
         public MainForm()
@@ -47,9 +46,6 @@ namespace PrelimCheck
             dtime = dtime.Date.AddDays(-1);
             dtime = dtime.Date + new TimeSpan(18, 0, 0);
             dateTimePickerStart.Value = dtime;
-            //dtime = dtime.Date.AddDays(1);
-            //dtime = dtime.Date + new TimeSpan(8, 0, 0);
-            //dateTimePickerEnd.Value = dtime;
             cbDuration.SelectedIndex = 2;
 
             saveFileDialog.InitialDirectory = Application.StartupPath;
@@ -77,7 +73,11 @@ namespace PrelimCheck
                 btnLoad.Enabled = false;
                 labelStatus.Text = "";
 
-                string url = urlCounty;
+                string url="", querySuffix="";
+                if (rbCounty.Checked) {
+                    url = urlCounty;
+                    querySuffix = " and ris_study_euid like '30-%'";
+                }
                 if (rbKeck.Checked) url = urlKeck;
                 //if (rbKeckRemote.Checked) url = urlKeckRemote;
                 if (rbOVMC.Checked) url = urlOVMC;
@@ -90,6 +90,7 @@ namespace PrelimCheck
                 {
                     BackgroundParameter bObj = new BackgroundParameter();
                     bObj.url = url;
+                    bObj.querySuffix = querySuffix;
                     bObj.duration = cbDuration.Text;
                     backgroundWorker.RunWorkerAsync(bObj);
                 }
@@ -109,6 +110,7 @@ namespace PrelimCheck
             {
                 BackgroundParameter bObj = e.Argument as BackgroundParameter;
                 string url = bObj.url;
+                string querySuffix = bObj.querySuffix;
                 Uri uriFujiRDS = new Uri(url);
 
                 ProgressObject pObj = new ProgressObject();
@@ -128,6 +130,8 @@ namespace PrelimCheck
                 and d.name='Notes' 
                 and d.creation_timedate between to_date('{0}','YYYY-MM-DD HH24:MI:SS') and to_date('{1}','YYYY-MM-DD HH24:MI:SS')", dateStart, dateEnd);
 
+                query += querySuffix;
+
                 ADODB.Recordset rs = new ADODB.Recordset();
                 byte[] result = retrieveRDS(uriFujiRDS, query);
 
@@ -138,7 +142,9 @@ namespace PrelimCheck
 
                 string notefile = Path.GetTempFileName();
                 WebClient client = new WebClient();
+                
                 client.Credentials = myCredentialCache;
+                client.UseDefaultCredentials = true;
 
                 dt = new DataTable();
 
@@ -186,7 +192,7 @@ namespace PrelimCheck
                     }
                     catch (Exception ex)
                     {
-                        note = "Error downloading note: " + ex.Message;
+                        note = String.Format("Error downloading note at {0}: {1}", filename, ex.Message);
                     }
 
                     string name = (lastname + ", " + firstname + " " + middlename).Trim();
@@ -248,7 +254,7 @@ namespace PrelimCheck
                         }
                         catch (Exception ex)
                         {
-                            report += "Error downloading report: " + ex.Message;
+                            report += String.Format("Error downloading report at {0}: {1}", filename, ex.Message);
                         }
 
 
@@ -395,6 +401,7 @@ namespace PrelimCheck
         class BackgroundParameter
         {
             public string url;
+            public string querySuffix;
             public string duration;
         }
 
@@ -684,5 +691,7 @@ namespace PrelimCheck
         {
             changeFilter();
         }
+
+
     }
 }
