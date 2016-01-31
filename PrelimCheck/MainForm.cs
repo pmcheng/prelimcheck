@@ -19,7 +19,7 @@ namespace PrelimCheck
         CredentialCache myCredentialCache;
         DataTable dt;
 
-        private string urlCounty = "http://dhssynapse.hosted.lac.com/SynapseScripts/fujirds.asp";
+        private string urlCounty = "http://dhssynapse/SynapseScripts/fujirds.asp";
         //private string urlCounty = "http://lacsynapse/SynapseScripts/fujirds.asp";
         private string urlKeck = "https://keckimaging.usc.edu/SynapseScripts/fujirds.asp";
         private string urlOVMC = "http://ovsynapse/SynapseScripts/fujirds.asp";
@@ -141,10 +141,11 @@ namespace PrelimCheck
                 rs.Open(tempfile, "Provider=MSPersist", ADODB.CursorTypeEnum.adOpenStatic, ADODB.LockTypeEnum.adLockReadOnly, 0);
 
                 string notefile = Path.GetTempFileName();
-                WebClient client = new WebClient();
                 
-                client.Credentials = myCredentialCache;
-                client.UseDefaultCredentials = true;
+                //** Eliminating this code due to apparent unreliability of WebClient with redirects
+                //WebClient client = new WebClient();
+                //client.Credentials = myCredentialCache;
+                //client.UseDefaultCredentials = true;
 
                 dt = new DataTable();
 
@@ -187,7 +188,8 @@ namespace PrelimCheck
                     string note = "";
                     try
                     {
-                        client.DownloadFile(filename, notefile);
+                        downloadFile(filename, notefile);
+                        //client.DownloadFile(filename, notefile);
                         note = parseNote(notefile);
                     }
                     catch (Exception ex)
@@ -249,7 +251,8 @@ namespace PrelimCheck
 
                         try
                         {
-                            client.DownloadFile(filename, notefile);
+                            downloadFile(filename, notefile);
+                            //client.DownloadFile(filename, notefile);
                             report += parseReport(notefile, url);
                         }
                         catch (Exception ex)
@@ -437,6 +440,25 @@ namespace PrelimCheck
             return false;
         }
 
+        void downloadFile(string url, string filename)
+        {
+            HttpWebRequest myWebRequest = (HttpWebRequest)WebRequest.Create(url);
+            myWebRequest.Method = WebRequestMethods.Http.Get;
+            myWebRequest.Credentials = myCredentialCache;
+
+
+            WebResponse webResponse = myWebRequest.GetResponse();
+            byte[] buffer = new byte[65536];
+            int read = 0;
+            using (Stream input = webResponse.GetResponseStream())
+            using (FileStream fileStream = File.Create(filename))
+            {
+                while ((read = input.Read(buffer, 0, buffer.Length))!=0)
+                {
+                    fileStream.Write(buffer, 0, read);
+                }
+            }
+        }
 
         private byte[] retrieveRDS(Uri uriRDS, string query)
         {
