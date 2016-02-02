@@ -22,7 +22,8 @@ namespace PrelimCheck
         private string urlCounty = "http://dhssynapse/SynapseScripts/fujirds.asp";
         //private string urlCounty = "http://lacsynapse/SynapseScripts/fujirds.asp";
         private string urlKeck = "https://keckimaging.usc.edu/SynapseScripts/fujirds.asp";
-        private string urlOVMC = "http://ovsynapse/SynapseScripts/fujirds.asp";
+        //private string urlOVMC = "http://ovsynapse/SynapseScripts/fujirds.asp";
+        private string urlOVMC = "http://dhssynapse/SynapseScripts/fujirds.asp";
 
         public MainForm()
         {
@@ -80,7 +81,10 @@ namespace PrelimCheck
                 }
                 if (rbKeck.Checked) url = urlKeck;
                 //if (rbKeckRemote.Checked) url = urlKeckRemote;
-                if (rbOVMC.Checked) url = urlOVMC;
+                if (rbOVMC.Checked) {
+                    url = urlOVMC;
+                    querySuffix = " and ris_study_euid like '60-%'";
+                }
 
                 Uri uriFujiRDS = new Uri(url);
 
