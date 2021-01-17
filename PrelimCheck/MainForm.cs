@@ -467,7 +467,17 @@ namespace PrelimCheck
 
         private byte[] retrieveRDS(Uri uriRDS, string query)
         {
-            query = "cmd=" + query + "&";
+            byte[] encodeQuery = System.Text.Encoding.Unicode.GetBytes(query + "uguessit");
+            System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] hashBytes = md5.ComputeHash(encodeQuery);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("X2"));
+            }
+            string signature = "signature=" + sb.ToString() + "&";
+
+            query = signature + "cmd=" + query + "&";
             string queryEsc = System.Uri.EscapeUriString(query);
             byte[] buffer = new byte[65536];
             byte[] postBytes = Encoding.ASCII.GetBytes(queryEsc);
