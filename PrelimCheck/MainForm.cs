@@ -21,7 +21,7 @@ namespace PrelimCheck
 
         private string urlCounty = "http://dhssynapse/SynapseScripts/fujirds.asp";
         //private string urlCounty = "http://lacsynapse/SynapseScripts/fujirds.asp";
-        private string urlKeck = "https://keckimaging.usc.edu/SynapseScripts/fujirds.asp";
+        private string urlKeck = "https://keckimaging.med.usc.edu/SynapseScripts/fujirds.asp";
         //private string urlOVMC = "http://ovsynapse/SynapseScripts/fujirds.asp";
         private string urlOVMC = "http://dhssynapse/SynapseScripts/fujirds.asp";
 

@@ -107,7 +107,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>"$(ProgramFiles)\Microsoft\Ilmerge\Ilmerge.exe" /target:winexe /out:"$(ProjectDir)bin\$(TargetFileName)" "$(TargetDir)$(TargetFileName)" "$(TargetDir)adodb.dll" "$(TargetDir)HtmlAgilityPack.dll" "$(TargetDir)LumenWorks.Framework.IO.dll" 
+    <PostBuildEvent>Ilmerge.exe /target:winexe /out:"$(ProjectDir)bin\$(TargetFileName)" "$(TargetDir)$(TargetFileName)" "$(TargetDir)adodb.dll" "$(TargetDir)HtmlAgilityPack.dll" "$(TargetDir)LumenWorks.Framework.IO.dll" 
 if not "%25RADUSC_DEPLOY%25"=="" copy "$(ProjectDir)bin\$(TargetFileName)" "%25RADUSC_DEPLOY%25"</PostBuildEvent>
   </PropertyGroup>
 </Project>
