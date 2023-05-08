@@ -16,7 +16,7 @@ Instructions
 5. Enter text to search notes/reports into the ***Filter Text*** field.  Multiple search terms can be separated by spaces, and phrases can be searched by entering them within quotes.  For instance, the search phrase ***p111999 "appendiceal rupture"*** will display rows whose notes or reports contain both *p111999* and the phrase *appendiceal rupture*.  Note that phrase searches will not detect phrases split across two lines of a report.
 6. Click ***Save*** to save the currently displayed table as a CSV file which can be reloaded into **PrelimCheck** (select ***Open***) or loaded into spreadsheet software such as Excel.  Patient names are not saved.  
 
-Requires .NET Framework 2.0 or higher.
+Requires .NET Framework 4.7.2 or higher.
 
 This project uses code from the following open source projects:
 
